@@ -316,14 +316,16 @@ if ($a==0): $a=1;?>
       var button = $('<button>', {
         type: 'button'
       }).append(link);
+      var h1 = $('<h1>').text(animalName).append("<br>").append(link);
 
-      var h1 = $('<h1>', {
-        type: 'h1'
-      }).append(link);
+
+      
 
       // Replace the existing button with the dynamic link
       $('.button-wrapper').empty().append(button);
       $('.button-wrapper').empty().append(h1);
+
+
       //document.write('<h1 id="animalName"></h1>');
       //$("#animalName").text(animalName); // Update the animal name
                             });
