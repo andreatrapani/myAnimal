@@ -116,22 +116,10 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Rex">Rex</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Alex">Alex</div>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="menu-item active">
               <a href="aggiungiAnimale.html" class="menu-link">
@@ -349,6 +337,30 @@
     });
   });
 });
+
+</script>
+
+<script type="text/javascript">/*
+  const nome = document.getElementById('nome').value.trim();
+const tipologia = document.getElementById('tipologia').value.trim();
+const razza = document.getElementById('razza').value.trim();
+const sesso = document.getElementById('sesso').value.trim();
+const peso = document.getElementById('peso').value.trim();
+const data_nascita = document.getElementById('data_nascita').value.trim();
+const colore = document.getElementById('colore').value.trim();
+
+const xhr = new XMLHttpRequest();
+const url = 'insert.php';
+const params = `nome=${nome}&tipologia=${tipologia}&razza=${razza}&sesso=${sesso}&peso=${peso}&data_nascita=${data_nascita}&colore=${colore}`;
+xhr.open('POST', url, true);
+xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhr.onreadystatechange = function() {
+  if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+    console.log(this.responseText);
+    window.location.href = '/gestisciAnimale.html';
+  }
+};
+xhr.send(params);*/
 
 </script>
                       </div>
