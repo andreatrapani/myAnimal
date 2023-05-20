@@ -1,8 +1,8 @@
 <script type="text/javascript">
   var urlParams = new URLSearchParams(window.location.search);
-                                var daid = urlParams.get('daid');
+  var daid = urlParams.get('daid');
 
-                              document.cookie = "daid=" + encodeURIComponent(daid);
+  document.cookie = "daid=" + encodeURIComponent(daid);
 
 </script>
 <?php
@@ -20,6 +20,12 @@ if ($a<2): $a=$a+1;?>
     <?php endif; ?>
 
 ?>
+<script type="text/javascript">
+  x=<?php echo $animal['Aid'] ?>;
+  if(x!=daid){
+    location.reload();
+  }
+</script>
 
 
 <!DOCTYPE html>
@@ -127,22 +133,10 @@ if ($a<2): $a=$a+1;?>
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="active menu-link menu-toggle">
+              <a href="animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="animale.html" class="menu-link">
-                    <div data-i18n="Rex">Rex</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="animale.html" class="menu-link">
-                    <div data-i18n="Alex">Alex</div>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="menu-item">
               <a href="../aggiungiAnimale.html" class="menu-link">
@@ -322,9 +316,12 @@ if ($a<2): $a=$a+1;?>
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="lastName" class="form-label">Tipologia</label>
-                                  <select id="tipologia" class="select2 form-select" value="<?php echo $animal['Tipologia'] ?>" selected>
-                                    <option value="<?php echo $animal['Tipologia'] ?>" selected>cane</option>
-                                    <option value="<?php echo $animal['Tipologia'] ?>">gatto</option>
+                                  <select id="tipologia" class="select2 form-select">
+                                    <?php
+                                    //array di option e mettere selected se option = $animal['Tipologia'] ?>
+                                    ?>
+                                    <option value="cane">cane</option>
+                                    <option value="gatto" selected>gatto</option>
                                   </select>
                                 </div>
                                 <div class="mb-3 col-md-6">
@@ -362,6 +359,54 @@ if ($a<2): $a=$a+1;?>
                               </div>
                             </form>
                           </div>
+                          <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+                        <script type="text/javascript">
+                          $(document).ready(function() {
+                          $('form').on('submit', function(e) {
+                            e.preventDefault(); // prevent the default form submission behavior
+                            var aid = daid;
+                            var nome = $('#Nome').val();
+                            var tipologia = $('#tipologia').val();
+                            var razza = $('#Razza').val();
+                            var sesso = $('#sesso').val();
+                            var peso = $('#peso').val();
+                            var data_nascita = $('#html5-date-input').val();
+                            var colore = $('#html5-color-input').val();
+                            //var ufk = $_COOKIE['uid'];
+                            //var ufk = $("<?php echo $_COOKIE['uid']; ?>").val();
+                            //var ufk = document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
+
+                            $.ajax({
+                              type: "POST",
+                              url: "post_animal_data.php",
+                              data: {
+                                aid: aid,
+                                nome: nome,
+                                tipologia: tipologia,
+                                razza: razza,
+                                sesso: sesso,
+                                peso: peso,
+                                data_nascita: data_nascita,
+                                colore: colore
+                              },
+                              success: function(data) {
+                                // handle success response here
+                                console.log(data);
+                                var url = "../gestisciAnimale/animale.php"; // Replace with the desired URL
+                                window.location.href = url;
+
+
+
+                              },
+                              error: function(xhr, status, error) {
+                                // handle error response here
+                              }
+                            });
+                          });
+                        });
+
+                        </script>
                           <!-- /Account -->
                         </div>
                         <div class="card">
