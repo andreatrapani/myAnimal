@@ -36,6 +36,7 @@ if ($result->num_rows > 0) {
 
     // create an array to store the animal data
     $animal = array(
+        'Aid' => $row['aid'],
         'Nome' => $row['nome'],
         'Tipologia' => $row['tipologia'],
         'Razza' => $row['razza'],
