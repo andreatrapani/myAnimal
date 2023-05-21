@@ -65,6 +65,25 @@
 </head>
 
   <body>
+    <!-- Core JS -->
+    <!-- build:js assets/vendor/js/core.js -->
+    
+    <script src="../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../assets/vendor/js/bootstrap.js"></script>
+    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+    <script src="../assets/vendor/js/menu.js"></script>
+    <!-- endbuild -->
+
+    <!-- Vendors JS -->
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js"></script>
+
+    <!-- Page JS -->
+
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Content -->
 
     <div class="container-xxl">
@@ -127,8 +146,49 @@
                     </label>
                   </div>
                 </div>
-                <button class="btn btn-primary d-grid w-100">Sign up</button>
+                <button class="btn btn-primary d-grid w-100">Sign up</button></br>
+                <div id="messaget" style="display: none; text-align: center; border: 2px solid red;">Username is already taken</div>
               </form>
+
+              
+
+
+
+              <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+              <script type="text/javascript">
+                $(document).ready(function() {
+                  $('form').on('submit', function(e) {
+                    e.preventDefault(); // prevent the default form submission behavior
+                    var username = $('#username').val();
+                    var email = $('#email').val();
+                    var password = $('#password').val();
+
+                    $.ajax({
+                      type: "POST",
+                      url: "./auth.php",
+                      data: {
+                        username: username,
+                        email: email,
+                        password: password
+                      },
+                      success: function(response) {
+                        // handle success response here
+                        console.log(response);
+                        if (response === "Username is already taken") {
+                          $('#messaget').show(); // show the success message
+                          //$('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid red;">Username is already taken</div>');
+                        } else {
+                          $('#formAuthentication').html('<div id="messager" style="text-align: center; border: 2px solid green;">You are registered!</div>');
+                        }
+                      },
+                      error: function(xhr, status, error) {
+                        // handle error response here
+                        console.error(error);
+                      }
+                    });
+                  });
+                });
+              </script>
 
               <p class="text-center">
                 <span>Hai già un account?</span>
@@ -143,27 +203,10 @@
       </div>
     </div>
 
+ 
     <!-- / Content -->
 
     
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="../assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-
-    <!-- Main JS -->
-    <script src="../assets/js/main.js"></script>
-
-    <!-- Page JS -->
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
   </body>
 </html>
