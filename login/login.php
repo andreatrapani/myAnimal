@@ -85,14 +85,14 @@
               <h4 class="mb-2">Benvenuto su MyAnimal</h4>
               <p class="mb-4">Usa il tuo username e la password per accedere</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" action="signin.php" method="POST">
                 <div class="mb-3">
                   <label for="email" class="form-label">Email or Username</label>
                   <input
                     type="text"
                     class="form-control"
-                    id="email"
-                    name="email-username"
+                    id="username"
+                    name="username"
                     placeholder="Enter your email or username"
                     autofocus
                     required
@@ -117,7 +117,7 @@
                 </div>
                 
                 <div class="mb-3">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                  <button class="btn btn-primary d-grid w-100" type="submit" >Sign in</button>
                 </div>
               </form>
 
