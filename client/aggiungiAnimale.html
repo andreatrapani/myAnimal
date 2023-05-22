@@ -104,7 +104,7 @@
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="client.html" class="menu-link">
+              <a href="client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -197,8 +197,23 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>
+                            <span class="fw-semibold d-block" id="username"></span>
+                            <small class="text-muted" id="email"></small>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                              $(document).ready(function () {
+                                var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                                $('#username').html(name);
+                              });
+
+                              $(document).ready(function () {
+                                var email = document.cookie.replace(/(?:(?:^|.*;\s*)email\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                                $('#email').html(email);
+                              });
+                            </script>
+                            
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -222,7 +237,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -296,52 +311,53 @@
 
                         <script src="../assets/vendor/libs/jquery/jquery.js"></script>
                         <script type="text/javascript">
-  $(document).ready(function() {
-  $('form').on('submit', function(e) {
-    e.preventDefault(); // prevent the default form submission behavior
-    var nome = $('#basic-default-nome').val();
-    var tipologia = $('#basic-default-tipologia').val();
-    var razza = $('#basic-default-razza').val();
-    var sesso = $('#basic-default-sesso').val();
-    var peso = $('#basic-default-peso').val();
-    var data_nascita = $('#html5-date-input').val();
-    var colore = $('#html5-color-input').val();
-    //var ufk = $_COOKIE['uid'];
-    //var ufk = $("<?php echo $_COOKIE['uid']; ?>").val();
-    var ufk = document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                          $(document).ready(function () {
+                            $('form').on('submit', function (e) {
+                              e.preventDefault(); // prevent the default form submission behavior
+                              var nome = $('#basic-default-nome').val();
+                              var tipologia = $('#basic-default-tipologia').val();
+                              var razza = $('#basic-default-razza').val();
+                              var sesso = $('#basic-default-sesso').val();
+                              var peso = $('#basic-default-peso').val();
+                              var data_nascita = $('#html5-date-input').val();
+                              var colore = $('#html5-color-input').val();
+                              //var ufk = $_COOKIE['uid'];
+                              //var ufk = $("<?php echo $_COOKIE['uid']; ?>").val();
+                              var ufk = document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
 
 
-    $.ajax({
-      type: "POST",
-      url: "./aggiungiAnimale.php",
-      data: {
-        nome: nome,
-        tipologia: tipologia,
-        razza: razza,
-        sesso: sesso,
-        peso: peso,
-        data_nascita: data_nascita,
-        colore: colore,
-        ufk: ufk
-      },
-      success: function(data) {
-        // handle success response here
-        console.log(data);
-        $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">hai aggiunto animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
+
+                              $.ajax({
+                                type: "POST",
+                                url: "./aggiungiAnimale.php",
+                                data: {
+                                  nome: nome,
+                                  tipologia: tipologia,
+                                  razza: razza,
+                                  sesso: sesso,
+                                  peso: peso,
+                                  data_nascita: data_nascita,
+                                  colore: colore,
+                                  ufk: ufk
+                                },
+                                success: function (data) {
+                                  // handle success response here
+                                  console.log(data);
+                                  $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">hai aggiunto animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
 
 
-      },
-      error: function(xhr, status, error) {
-        // handle error response here
-      }
-    });
-  });
-});
+                                },
+                                error: function (xhr, status, error) {
+                                  // handle error response here
+                                }
+                              });
+                            });
+                          });
 
-</script>
+                        </script>
 
 <script type="text/javascript">/*
-  const nome = document.getElementById('nome').value.trim();
+const nome = document.getElementById('nome').value.trim();
 const tipologia = document.getElementById('tipologia').value.trim();
 const razza = document.getElementById('razza').value.trim();
 const sesso = document.getElementById('sesso').value.trim();
@@ -355,10 +371,10 @@ const params = `nome=${nome}&tipologia=${tipologia}&razza=${razza}&sesso=${sesso
 xhr.open('POST', url, true);
 xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 xhr.onreadystatechange = function() {
-  if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-    console.log(this.responseText);
-    window.location.href = '/gestisciAnimale.html';
-  }
+if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+console.log(this.responseText);
+window.location.href = '/gestisciAnimale.html';
+}
 };
 xhr.send(params);*/
 
@@ -420,7 +436,7 @@ xhr.send(params);*/
                   ©
                   <script>
                     document.write(new Date().getFullYear());
-                </script>
+                  </script>
                   , by Trap
                 </div>
                 <div>

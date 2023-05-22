@@ -18,5 +18,5 @@
 
 	$mysql->close();
 
-	header("location: /maproject/myAnimal/client/client.php")
+	header("location: ../client/client.php")
 ?>

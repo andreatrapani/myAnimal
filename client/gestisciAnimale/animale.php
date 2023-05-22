@@ -111,7 +111,7 @@ if ($a==0): $a=1;?>
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="../client.html" class="menu-link">
+              <a href="../client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -122,7 +122,7 @@ if ($a==0): $a=1;?>
               <span class="menu-header-text">Animali</span>
             </li>
 
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
@@ -204,8 +204,17 @@ if ($a==0): $a=1;?>
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>
+                            <?php
+                              if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                                  // user is logged in
+                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['username']." </span>";
+                                  echo '<small class="text-muted">'.$_COOKIE['email']."</small>";
+                              } else {
+                                  // user is not logged in
+                              }
+                            ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -229,7 +238,7 @@ if ($a==0): $a=1;?>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>

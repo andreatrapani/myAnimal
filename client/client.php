@@ -104,7 +104,7 @@
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item active">
-              <a href="client.html" class="menu-link">
+              <a href="client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -116,22 +116,10 @@
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Rex">Rex</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Alex">Alex</div>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="menu-item">
               <a href="aggiungiAnimale.html" class="menu-link">
@@ -212,8 +200,8 @@
                             <?php
                               if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
                                   // user is logged in
-                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['email']." uid: ".$_COOKIE['uid']."</span>";
-                                  echo '<small class="text-muted">'.$_COOKIE['username']."</small>";
+                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['username']." </span>";
+                                  echo '<small class="text-muted">'.$_COOKIE['email']."</small>";
                               } else {
                                   // user is not logged in
                               }
@@ -243,7 +231,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/maproject/myAnimal/login/signout.php">
+                      <a class="dropdown-item" href="../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>

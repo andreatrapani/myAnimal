@@ -121,7 +121,7 @@ if ($a<2): $a=$a+1;?>
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="../client.html" class="menu-link">
+              <a href="../client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -201,7 +201,7 @@ if ($a<2): $a=$a+1;?>
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -210,12 +210,21 @@ if ($a<2): $a=$a+1;?>
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>
+                            <?php
+                              if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                                  // user is logged in
+                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['username']." </span>";
+                                  echo '<small class="text-muted">'.$_COOKIE['email']."</small>";
+                              } else {
+                                  // user is not logged in
+                              }
+                            ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -239,7 +248,7 @@ if ($a<2): $a=$a+1;?>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
