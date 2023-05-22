@@ -133,7 +133,7 @@ if ($a<2): $a=$a+1;?>
             </li>
 
             <li class="menu-item">
-              <a href="animale.php" class="menu-link">
+              <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
