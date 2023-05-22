@@ -25,6 +25,14 @@ if ($a<2): $a=$a+1;?>
   if(x!=daid){
     location.reload();
   }
+  u=document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  d=<?php echo $animal['Ufk'] ?>;
+  if(u!=d){
+    var url = "../gestisciAnimale/animale.php"; // Replace with the desired URL
+    window.location.href = url;
+    <?php setcookie('daid', '', time() - 3600, '/');?>
+  }
+  
 </script>
 
 
@@ -271,7 +279,7 @@ if ($a<2): $a=$a+1;?>
                 <!-- Form -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4">
-                        <span class="text-muted fw-light">Rex /</span> Modifica
+                        <span class="text-muted fw-light"><?php echo $animal['Nome'] ?> /</span> Modifica
                     </h4>
       
                     <div class="row">
@@ -281,40 +289,34 @@ if ($a<2): $a=$a+1;?>
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                               <img src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                              <script type="text/javascript">
+                                $(document).ready(function() {
+                                  var tipo = "<?php echo $animal['Tipologia']; ?>";
+
+                                  // Determine the image source based on the 'tipo' variable
+                                  var imageSrc;
+                                  if (tipo === "cane") {
+                                    imageSrc = "../../assets/img/animals/cane.png";
+                                  } else if (tipo === "gatto") {
+                                    imageSrc = "../../assets/img/animals/gatto.png";
+                                  } else {
+                                    // Default image source if tipo is not recognized
+                                    imageSrc = "../../assets/img/animals/default.png";
+                                  }
+
+                                  // Update the image source
+                                  $("#uploadedAvatar").attr("src", imageSrc);
+                                });
+                              </script>
                               <div class="button-wrapper">
                                 <h1 id="daidValue"></h1>
                                 <h1 id="name"><?php echo $animal['Nome'] ?></h1>
                               </div>
                             </div>
                           </div>
-                                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-                          <script type="text/javascript">
-                            /*$(document).ready(function() {
-                                // Retrieve the daid value from the URL query parameters
-                                var urlParams = new URLSearchParams(window.location.search);
-                                var daid = urlParams.get('daid');
-                                //$("#name").text(daid);
-
-                                $.ajax({
-                                  type: "POST",
-                                  url: "./get_animal_data.php",
-                                  data: {
-                                    daid: daid
-                                  },
-                                  success: function(data) {
-                                    // handle success response here
-                                    console.log(data);
-                                    $("#name").text(daid);
-                                    //$('#message').show(); // show the success message
-                                    //$('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid green;">You are registered!</div>');
-                                  },
-                                  error: function(xhr, status, error) {
-                                    // handle error response here
-                                  }
-                                });
-                              });*/
-                          </script>
+                          </div>
                           <hr class="my-0">
                           <div class="card-body">
                             <form id="formAccountSettings" method="POST" onsubmit="return false">
@@ -327,11 +329,14 @@ if ($a<2): $a=$a+1;?>
                                   <label for="lastName" class="form-label">Tipologia</label>
                                   <select id="tipologia" class="select2 form-select">
                                     <?php
-                                    //array di option e mettere selected se option = $animal['Tipologia'] ?>
+                                    $options = array("cane", "gatto"); // Add more options if needed
+                                    foreach ($options as $option) {
+                                      $selected = ($option === $animal['Tipologia']) ? "selected" : ""; // Check if current option is selected
+                                      echo '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                                    }
                                     ?>
-                                    <option value="cane">cane</option>
-                                    <option value="gatto" selected>gatto</option>
                                   </select>
+
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="Razza" class="form-label">Razza</label>
@@ -340,9 +345,15 @@ if ($a<2): $a=$a+1;?>
                                 <div class="mb-3 col-md-6">
                                   <label for="sesso" class="form-label">Sesso</label>
                                   <select id="sesso" class="select2 form-select">
-                                    <option value="M" selected>M</option>
-                                    <option value="F">F</option>
-                                  </select>                                
+                                    <?php
+                                    $options = array("M", "F"); // Add more options if needed
+                                    foreach ($options as $option) {
+                                      $selected = ($option === $animal['Sesso']) ? "selected" : ""; // Check if current option is selected
+                                      echo '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                                    }
+                                    ?>
+                                  </select>
+                                                                 
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label class="form-label" for="peso">Peso</label>

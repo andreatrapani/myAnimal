@@ -282,7 +282,7 @@ if ($a==0): $a=1;?>
                       
                       <div class="col-md-12">
                         <!-- Intestazione -->
-                        <div class="card mb-4">
+                         <div class="card mb-4">
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                               <img src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
@@ -290,55 +290,56 @@ if ($a==0): $a=1;?>
                                 <h1 id="animalName"><p>uid: <?php echo $_COOKIE['uid'] ?></p>Scegli animale</h1>
                                 <p id="animalid" style="display: none;">g</p>
                                 <label class="btn btn-primary me-2 mb-4" tabindex="0">
-                                  
                                   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                  <script>
+                                    $(document).ready(function() {
+                                      // Attach a change event listener to the dropdown
+                                      $(".dropdown-menu a.dropdown-item").on("click", function() {
+                                        var animalName = $(this).data("animal");
+                                        var daid = $(this).data("aid");
+                                        var tipo = $(this).data("type");
+                                        $("#animalName").text(animalName); // Update the animal name
+                                        $("#animalid").text(daid);
 
-                        <script>
+                                        // Determine the image source based on the 'tipo' variable
+                                        var imageSrc;
+                                        if (tipo === "cane") {
+                                          imageSrc = "../../assets/img/animals/cane.png";
+                                        } else if (tipo === "gatto") {
+                                          imageSrc = "../../assets/img/animals/gatto.png";
+                                        } else {
+                                          // Default image source if tipo is not recognized
+                                          imageSrc = "../../assets/img/animals/default.png";
+                                        }
 
-                          $(document).ready(function() {
-                            // Attach a change event listener to the dropdown
-                            $(".dropdown-menu a.dropdown-item").on("click", function() {
-                              var animalName = $(this).data("animal");
-                              var daid = $(this).data("aid");
-                              $("#animalName").text(animalName); // Update the animal name
-                              $("#animalid").text(daid);
-                              // Create the link element
-      var link = $('<a>', {
-        href: '../modificaAnimale/modifica.php?daid=' + encodeURIComponent(daid),
-        class: 'btn btn-primary',
-        text: 'Modifica Animale'
-      });
+                                        // Update the image source
+                                        $("#uploadedAvatar").attr("src", imageSrc);
 
-      // Create the button element
-      var button = $('<button>', {
-        type: 'button'
-      }).append(link);
-      var h1 = $('<h1>').text(animalName).append("<br>").append(link);
+                                        // Create the link element
+                                        var link = $('<a>', {
+                                          href: '../modificaAnimale/modifica.php?daid=' + encodeURIComponent(daid),
+                                          class: 'btn btn-primary',
+                                          text: 'Modifica Animale'
+                                        });
 
+                                        // Create the button element
+                                        var button = $('<button>', {
+                                          type: 'button'
+                                        }).append(link);
 
-      
+                                        var h1 = $('<h1>').text(animalName).append("<br>").append(link);
 
-      // Replace the existing button with the dynamic link
-      $('.button-wrapper').empty().append(button);
-      $('.button-wrapper').empty().append(h1);
-
-
-      //document.write('<h1 id="animalName"></h1>');
-      //$("#animalName").text(animalName); // Update the animal name
-                            });
-                          });
-  
-                        </script>
+                                        // Replace the existing button with the dynamic link
+                                        $('.button-wrapper').empty().append(button);
+                                        $('.button-wrapper').empty().append(h1);
+                                      });
+                                    });
+                                  </script>
                                 </label>
-
-
                               </div>
                             </div>
                           </div>
                         </div>
-                        
-
-
                         <!-- / Intestazione -->
                         <div class="row">
 
