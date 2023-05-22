@@ -320,11 +320,14 @@ if ($a<2): $a=$a+1;?>
                                   <label for="lastName" class="form-label">Tipologia</label>
                                   <select id="tipologia" class="select2 form-select">
                                     <?php
-                                    //array di option e mettere selected se option = $animal['Tipologia'] ?>
+                                    $options = array("cane", "gatto"); // Add more options if needed
+                                    foreach ($options as $option) {
+                                      $selected = ($option === $animal['Tipologia']) ? "selected" : ""; // Check if current option is selected
+                                      echo '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                                    }
                                     ?>
-                                    <option value="cane">cane</option>
-                                    <option value="gatto" selected>gatto</option>
                                   </select>
+
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="Razza" class="form-label">Razza</label>
@@ -333,9 +336,15 @@ if ($a<2): $a=$a+1;?>
                                 <div class="mb-3 col-md-6">
                                   <label for="sesso" class="form-label">Sesso</label>
                                   <select id="sesso" class="select2 form-select">
-                                    <option value="M" selected>M</option>
-                                    <option value="F">F</option>
-                                  </select>                                
+                                    <?php
+                                    $options = array("M", "F"); // Add more options if needed
+                                    foreach ($options as $option) {
+                                      $selected = ($option === $animal['Sesso']) ? "selected" : ""; // Check if current option is selected
+                                      echo '<option value="' . $option . '" ' . $selected . '>' . $option . '</option>';
+                                    }
+                                    ?>
+                                  </select>
+                                                                 
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label class="form-label" for="peso">Peso</label>
