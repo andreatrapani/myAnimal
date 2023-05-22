@@ -1,58 +1,21 @@
-<script type="text/javascript">
-  var urlParams = new URLSearchParams(window.location.search);
-  var daid = urlParams.get('daid');
-
-  document.cookie = "daid=" + encodeURIComponent(daid);
-/*
-  $.ajax({
-  url: 'get.php',
-  method: 'GET',
-  data: { daid: daid }, // Replace 'your_daid_value' with the actual value
-  success: function(response) {
-    // Handle the successful response here
-    var animalData = JSON.parse(response);
-
-    // Access the animal data fields
-    var nome = animalData.Nome;
-    var tipologia = animalData.Tipologia;
-    var razza = animalData.Razza;
-    var sesso = animalData.Sesso;
-    var peso = animalData.Peso;
-    var dataNascita = animalData['Data di nascita'];
-    var colore = animalData.Colore;
-
-    // Do something with the animal data
-    // ...
-  },
-  error: function(xhr, status, error) {
-    // Handle the error here
-    console.error(error);
-  }
-});*/
-
-
-</script>
 <?php
 
+// retrieve the user's UID from the cookie
+$uid = $_COOKIE['uid'];
 
 // retrieve the animal data from the database
-require_once 'get_animal_data.php';
+require_once 'animaledb.php';
 $a=0;
-if ($a<2): $a=$a+1;?>
+if ($a==0): $a=1;?>
         <p>Nessun animale trovato.</p>
     <?php else: 
-        $animal = json_decode(urldecode($_GET['animal']), true);
+        $animali = json_decode(urldecode($_GET['animali']), true);
 
         ?>
     <?php endif; ?>
 
 ?>
-<script type="text/javascript">
-  x=<?php echo $animal['Aid'] ?>;
-  if(x!=daid){
-    location.reload();
-  }
-</script>
+
 
 
 <!DOCTYPE html>
@@ -83,6 +46,7 @@ if ($a<2): $a=$a+1;?>
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
+    
 
     <title>MyAnimal -  Rex</title>
 
@@ -120,7 +84,6 @@ if ($a<2): $a=$a+1;?>
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
-  
   </head>
 
   <body>
@@ -288,175 +251,418 @@ if ($a<2): $a=$a+1;?>
               <div class="row">
                 <!-- Form -->
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <h4 class="fw-bold py-3 mb-4">
-                        <span class="text-muted fw-light">Rex /</span> Modifica
-                    </h4>
-      
+                  <div class="btn-group">
+                      <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Scegli animale
+                      </button>
+                      <ul class="dropdown-menu">
+
+                        <?php
+                        //$animali = json_decode(urldecode($_GET['animali']), true);
+
+                        // iterate over the animal data and display it
+                        foreach ($animali as $animal) {
+                        ?>
+                        <li><a class="dropdown-item" href="javascript:void(0);" data-animal="<?php echo $animal['Nome']; ?>" data-aid="<?php echo $animal['aid'] ?>"><?php echo $animal['Nome'] ?></a></li>
+                        <?php } ?>
+                        <li><a class="dropdown-item" href="javascript:void(0);">Alx</a></li>
+                      </ul>
+                  </div>
+                  <br><br>
                     <div class="row">
+                      
                       <div class="col-md-12">
+                        <!-- Intestazione -->
                         <div class="card mb-4">
-                          <!-- Account -->
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                               <img src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
                               <div class="button-wrapper">
-                                <h1 id="daidValue"></h1>
-                                <h1 id="name"><?php echo $animal['Nome'] ?></h1>
-                              </div>
-                            </div>
-                          </div>
+                                <h1 id="animalName"><p>uid: <?php echo $_COOKIE['uid'] ?></p>Scegli animale</h1>
+                                <p id="animalid" style="display: none;">g</p>
+                                <label class="btn btn-primary me-2 mb-4" tabindex="0">
+                                  
                                   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-                          <script type="text/javascript">
-                            /*$(document).ready(function() {
-                                // Retrieve the daid value from the URL query parameters
-                                var urlParams = new URLSearchParams(window.location.search);
-                                var daid = urlParams.get('daid');
-                                //$("#name").text(daid);
+                        <script>
 
-                                $.ajax({
-                                  type: "POST",
-                                  url: "./get_animal_data.php",
-                                  data: {
-                                    daid: daid
-                                  },
-                                  success: function(data) {
-                                    // handle success response here
-                                    console.log(data);
-                                    $("#name").text(daid);
-                                    //$('#message').show(); // show the success message
-                                    //$('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid green;">You are registered!</div>');
-                                  },
-                                  error: function(xhr, status, error) {
-                                    // handle error response here
-                                  }
-                                });
-                              });*/
-                          </script>
-                          <hr class="my-0">
-                          <div class="card-body">
-                            <form id="formAccountSettings" method="POST" onsubmit="return false">
-                              <div class="row">
-                                <div class="mb-3 col-md-6">
-                                  <label for="Nome" class="form-label">Nome</label>
-                                  <input class="form-control" type="text" id="Nome" name="Nome" value="<?php echo $animal['Nome'] ?>" autofocus="">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                  <label for="lastName" class="form-label">Tipologia</label>
-                                  <select id="tipologia" class="select2 form-select">
-                                    <?php
-                                    //array di option e mettere selected se option = $animal['Tipologia'] ?>
-                                    ?>
-                                    <option value="cane">cane</option>
-                                    <option value="gatto" selected>gatto</option>
-                                  </select>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                  <label for="Razza" class="form-label">Razza</label>
-                                  <input class="form-control" type="text" id="Razza" name="Razza" value="<?php echo $animal['Razza'] ?>" autofocus="">
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                  <label for="sesso" class="form-label">Sesso</label>
-                                  <select id="sesso" class="select2 form-select">
-                                    <option value="M" selected>M</option>
-                                    <option value="F">F</option>
-                                  </select>                                
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                  <label class="form-label" for="peso">Peso</label>
-                                  <div class="input-group input-group-merge">
-                                    <input type="text" id="peso" name="peso" class="form-control" value="<?php echo $animal['Peso'] ?>">
-                                    <span class="input-group-text">kg</span>
-                                  </div>
-                                </div>
-                                <div class="mb-3 col-md-6">
-                                  <label for="address" class="form-label">Data Nascita</label>
-                                  <input class="form-control" type="date" value="<?php echo $animal['Data di nascita'] ?>" id="html5-date-input">
-                                </div>
-                                <div class="mb-3 col-md-12">
-                                  <label for="state" class="form-label">Colore</label>
-                                  <div>
-                                    <input class="form-control" type="color" value="<?php echo $animal['Colore'] ?>" id="html5-color-input">
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="mt-2">
-                                <button type="submit" class="btn btn-primary me-2">Save changes</button>
-                                <button type="reset" class="btn btn-outline-secondary">Cancel</button>
-                              </div>
-                            </form>
-                          </div>
-                          <script src="../assets/vendor/libs/jquery/jquery.js"></script>
-                        <script type="text/javascript">
                           $(document).ready(function() {
-                          $('form').on('submit', function(e) {
-                            e.preventDefault(); // prevent the default form submission behavior
-                            var aid = daid;
-                            var nome = $('#Nome').val();
-                            var tipologia = $('#tipologia').val();
-                            var razza = $('#Razza').val();
-                            var sesso = $('#sesso').val();
-                            var peso = $('#peso').val();
-                            var data_nascita = $('#html5-date-input').val();
-                            var colore = $('#html5-color-input').val();
-                            //var ufk = $_COOKIE['uid'];
-                            //var ufk = $("<?php echo $_COOKIE['uid']; ?>").val();
-                            //var ufk = document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+                            // Attach a change event listener to the dropdown
+                            $(".dropdown-menu a.dropdown-item").on("click", function() {
+                              var animalName = $(this).data("animal");
+                              var daid = $(this).data("aid");
+                              $("#animalName").text(animalName); // Update the animal name
+                              $("#animalid").text(daid);
+                              // Create the link element
+      var link = $('<a>', {
+        href: '../modificaAnimale/modifica.php?daid=' + encodeURIComponent(daid),
+        class: 'btn btn-primary',
+        text: 'Modifica Animale'
+      });
+
+      // Create the button element
+      var button = $('<button>', {
+        type: 'button'
+      }).append(link);
+      var h1 = $('<h1>').text(animalName).append("<br>").append(link);
 
 
-                            $.ajax({
-                              type: "POST",
-                              url: "post_animal_data.php",
-                              data: {
-                                aid: aid,
-                                nome: nome,
-                                tipologia: tipologia,
-                                razza: razza,
-                                sesso: sesso,
-                                peso: peso,
-                                data_nascita: data_nascita,
-                                colore: colore
-                              },
-                              success: function(data) {
-                                // handle success response here
-                                console.log(data);
-                                var url = "../gestisciAnimale/animale.php"; // Replace with the desired URL
-                                window.location.href = url;
+      
+
+      // Replace the existing button with the dynamic link
+      $('.button-wrapper').empty().append(button);
+      $('.button-wrapper').empty().append(h1);
 
 
-
-                              },
-                              error: function(xhr, status, error) {
-                                // handle error response here
-                              }
+      //document.write('<h1 id="animalName"></h1>');
+      //$("#animalName").text(animalName); // Update the animal name
                             });
                           });
-                        });
-
+  
                         </script>
-                          <!-- /Account -->
-                        </div>
-                        <div class="card">
-                          <h5 class="card-header">Elimina Animale</h5>
-                          <div class="card-body">
-                            <div class="mb-3 col-12 mb-0">
-                              <div class="alert alert-warning">
-                                <h6 class="alert-heading fw-bold mb-1">Sei sicuro di voler eliminare il tuo animale</h6>
-                                <p class="mb-0">Una volta eliminato non sarà più recuperabile.</p>
+                                </label>
+
+
                               </div>
                             </div>
-                            <form id="formAccountDeactivation" onsubmit="return false">
-                              <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
-                                <label class="form-check-label" for="accountActivation">confermo di voler eliminare il mio animale</label>
-                              </div>
-                              <button type="submit" class="btn btn-danger deactivate-account">Elimina Animale</button>
-                            </form>
                           </div>
                         </div>
+                        
+
+
+                        <!-- / Intestazione -->
+                        <div class="row">
+
+                          <!-- Vaccini -->
+                          <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+                            <div class="card h-100">
+                              <div class="card-header d-flex align-items-center justify-content-between">
+                                <h5 class="card-title m-0 me-2">Vaccini</h5>
+                                <div class="dropdown">
+                                  <button type="button" class="btn btn-outline-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    validi
+                                  </button>
+                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
+                                    <a class="dropdown-item" href="javascript:void(0);">da effettuare</a>
+                                    <a class="dropdown-item" href="javascript:void(0);">scaduti</a>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card-body">
+                                <ul class="p-0 m-0">
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-success p-25"><i class='bx bxs-vial text-success'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">validi</small>
+                                        <h6 class="mb-0">Antirabbica</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-success">24/06/2026</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-warning p-25"><i class='bx bxs-vial text-warning'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">da effettuare</small>
+                                        <h6 class="mb-0">Antirabbica</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-warning">02/05/2023</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-danger p-25"><i class='bx bxs-vial text-danger'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">scaduti</small>
+                                        <h6 class="mb-0">Antirabbica</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-danger">24/06/2021</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <div style="margin: 0 auto;">
+                                  <a href="../aggiungiVax.html" type="button" class="btn rounded-pill btn-primary">
+                                    Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                                  </a>
+                                </div>
+                                <br>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- / Vaccini -->
+
+                          <!-- Medicinali -->
+                          <div class="col-md-6 col-lg-4 order-1 mb-4">
+                            <div class="card h-100">
+                              <div class="card-header d-flex align-items-center justify-content-between">
+                                <h5 class="card-title m-0 me-2">Medicinali</h5>
+                              </div>
+                              <div class="card-body">
+                                <ul class="p-0 m-0">
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-danger p-25"><i class='bx bxs-capsule text-danger'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">non effettuata</small>
+                                        <h6 class="mb-0">Medicina1</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-danger">08:00</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-success p-25"><i class='bx bxs-capsule text-success'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">effettuata</small>
+                                        <h6 class="mb-0">Medicina2</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-success">14:45</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li class="d-flex mb-4 pb-1">
+                                    <div class="avatar flex-shrink-0 me-3">
+                                      <div class="d-flex">
+                                        <div class="me-2">
+                                          <span class="badge bg-label-warning p-25"><i class='bx bxs-capsule text-warning'></i></span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                      <div class="me-2">
+                                        <small class="text-muted d-block mb-1">da effettuare</small>
+                                        <h6 class="mb-0">Medicina3</h6>
+                                      </div>
+                                      <div class="user-progress d-flex align-items-center gap-1">
+                                        <h6 class="mb-0 text-warning">20:30</h6>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                                <div style="margin: 0 auto;">
+                                  <a href="../aggiungiMed.html" type="button" class="btn rounded-pill btn-primary">
+                                    Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                                  </a>
+                                </div>
+                                <br>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- / Medicinali -->
+
+                          <!-- Ricette -->
+                          <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
+                            <div class="card h-95">
+                                <div class="card-header d-flex align-items-center justify-content-between">
+                                  <h5 class="card-title m-0 me-2">Ricette</h5>
+                                </div>
+                                <div class="card-body">
+                                  <ul class="p-0 m-0">
+                                    <li class="d-flex mb-4 pb-1">
+
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">Ricette</small>
+                                          <h6 class="mb-0">Test1</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+                                            <i class='bx bx-search-alt-2'></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li class="d-flex mb-4 pb-1">
+
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">Ricette</small>
+                                          <h6 class="mb-0">Test2</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+                                            <i class='bx bx-search-alt-2'></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li class="d-flex mb-4 pb-1">
+
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">Ricette</small>
+                                          <h6 class="mb-0">Test3</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+                                            <i class='bx bx-search-alt-2'></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li class="d-flex mb-4 pb-1">
+
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">Ricette</small>
+                                          <h6 class="mb-0">Test4</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+                                            <i class='bx bx-search-alt-2'></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li class="d-flex mb-4 pb-1">
+
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">Ricette</small>
+                                          <h6 class="mb-0">Test2</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
+                                            <i class='bx bx-search-alt-2'></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </li>
+                                  </ul>
+                                </div>
+                              </div>
+                          </div>
+                        
+                          <!-- / Ricette -->
+
+
+                          <!-- Modal -->
+                        <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
+                          <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
+                                <button
+                                  type="button"
+                                  class="btn-close"
+                                  data-bs-dismiss="modal"
+                                  aria-label="Close"
+                                ></button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="row">
+                                  <div class="col mb-3">
+                                    <label for="nameExLarge" class="form-label">Name</label>
+                                    <input type="text" id="nameExLarge" class="form-control" placeholder="Enter Name" />
+                                  </div>
+                                </div>
+                                <div class="row g-2">
+                                  <div class="col mb-0">
+                                    <label for="emailExLarge" class="form-label">Email</label>
+                                    <input type="text" id="emailExLarge" class="form-control" placeholder="xxxx@xxx.xx" />
+                                  </div>
+                                  <div class="col mb-0">
+                                    <label for="dobExLarge" class="form-label">DOB</label>
+                                    <input type="text" id="dobExLarge" class="form-control" placeholder="DD / MM / YY" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                  Close
+                                </button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- /Modal -->
+
+                        </div>
+
                       </div>
                     </div>
-                  </div>
+                </div>
                 <!-- / Form -->
               </div>
             </div>
@@ -470,7 +676,7 @@ if ($a<2): $a=$a+1;?>
                   ©
                   <script>
                     document.write(new Date().getFullYear());
-                </script>
+                  </script>
                   , by Trap
                 </div>
                 <div>
