@@ -352,10 +352,7 @@
                   </div>
                 </div>
                 <!-- Descrizione Animale -->
-                <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
-                  <div class="card">
-                    <div class="row row-bordered g-0">
-
+                
 
 
 
@@ -366,12 +363,19 @@
                     $risultato = $mysql->query("SELECT *  FROM animali WHERE ufk = (SELECT uid FROM user WHERE username='" . $_COOKIE['username'] . "')");
 
                     if ($risultato->num_rows == 0) {
-                      echo '<div class="col-md-12">
-                              <div class="text-center fw-semibold pt-3 mb-3 h1">NESSUN ANIMALE REGISTRATO</div>
-                              <div class="text-center button-wrapper">
-                                <h1><br><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungi Animale Ora</a></h1>
+                      echo '<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+                              <div class="card">
+                                <div class="row row-bordered g-0">
+                                  <div class="col-md-12">
+                                    <div class="text-center fw-semibold pt-3 mb-3 h1">NESSUN ANIMALE REGISTRATO</div>
+                                    <div class="text-center button-wrapper">
+                                      <h1><br><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungi Animale Ora</a></h1>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                          </div>';
+                            </div>
+                                      ';
                       exit();
                     } else {
                       $animali = array(); // Array per memorizzare gli animali
@@ -381,78 +385,73 @@
                       $firstAnimal = $animali[0]; // Primo animale
                     
                       echo '
-                      <div class="col-md-8">
-                          <div class="card">
-                            <h5 class="card-header m-0 me-2 pb-3">Descrizione</h5>
-                            <div class="table-responsive text-nowrap animal-details">
-                                <table class="table">
-                                  <thead>
-                                      <tr>
-                                        <th>#</th>
-                                        <th>Valore</th>
-                                      </tr>
-                                  </thead>
-                                  <tbody class="table-border-bottom-0">
-                                      <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Tipologia</strong></td>
-                                        <td id="tipologia">' . $firstAnimal['tipologia'] . '</td>
-                                      </tr>
-                                      <tr>
-                                        <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Razza</strong></td>
-                                        <td id="razza">' . $firstAnimal['razza'] . '</td>
-                                      </tr>
-                                      <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Sesso</strong></td>
-                                        <td id="sesso">' . $firstAnimal['sesso'] . '</td>
-                                      </tr>
-                                      <tr>
-                                        <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Peso</strong></td>
-                                        <td id="peso">' . $firstAnimal['peso'] . ' kg</td>
-                                      </tr>
-                                      <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Data nascita</strong></td>
-                                        <td id="dataNascita">' . $firstAnimal['data_nascita'] . '</td>
-                                      </tr>
-                                      <tr>
-                                        <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Colore</strong></td>
-                                        <td><input disabled="" class="form-control" type="color" value="' . $firstAnimal['colore'] . '" id="html5-color-input"></td>
-                                      </tr>
-                                  </tbody>
-                                </table>
+                      <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+                        <div class="card">
+                          <div class="row row-bordered g-0">
+                            <div class="col-md-8">
+                                <div class="card">
+                                  <h5 class="card-header m-0 me-2 pb-3">Descrizione</h5>
+                                  <div class="table-responsive text-nowrap animal-details">
+                                      <table class="table">
+                                        <thead>
+                                            <tr>
+                                              <th>#</th>
+                                              <th>Valore</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                            <tr>
+                                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Tipologia</strong></td>
+                                              <td id="tipologia">' . $firstAnimal['tipologia'] . '</td>
+                                            </tr>
+                                            <tr>
+                                              <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Razza</strong></td>
+                                              <td id="razza">' . $firstAnimal['razza'] . '</td>
+                                            </tr>
+                                            <tr>
+                                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Sesso</strong></td>
+                                              <td id="sesso">' . $firstAnimal['sesso'] . '</td>
+                                            </tr>
+                                            <tr>
+                                              <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Peso</strong></td>
+                                              <td id="peso">' . $firstAnimal['peso'] . ' kg</td>
+                                            </tr>
+                                            <tr>
+                                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Data nascita</strong></td>
+                                              <td id="dataNascita">' . $firstAnimal['data_nascita'] . '</td>
+                                            </tr>
+                                            <tr>
+                                              <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Colore</strong></td>
+                                              <td><input disabled="" class="form-control" type="color" value="' . $firstAnimal['colore'] . '" id="html5-color-input"></td>
+                                            </tr>
+                                        </tbody>
+                                      </table>
+                                  </div>
+                                </div>
                             </div>
-                          </div>
-                      </div>
-                      <div class="col-md-4">
-                          <div class="card-body">
-                            <div class="text-center">
-                                <div class="dropdown">
-                                  <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                      ' . $firstAnimal['nome'] . '
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">';
+                            <div class="col-md-4">
+                                <div class="card-body">
+                                  <div class="text-center">
+                                      <div class="dropdown">
+                                        <button class="btn btn-sm btn-outline-primary dropdown-toggle" type="button" id="growthReportId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            ' . $firstAnimal['nome'] . '
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">';
 
-                                          foreach ($animali as $animal) {
-                                            echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>';
-                                          }
+                                                foreach ($animali as $animal) {
+                                                  echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>';
+                                                }
 
-                                          echo '</div>
+                                                echo '</div>
+                                      </div>
+                                  </div>
                                 </div>
+                                <br><br>
+                                <img style=" display: block; margin: 0 auto;" src="../assets/img/animals/cane.png">
                             </div>
-                          </div>
-                          <img style="display: block; margin: 0 auto;" src="../assets/img/animals/cane.png">
-                          <div class="text-center fw-semibold pt-3 mb-2" id="nomeRazza">' . $firstAnimal['razza'] . '</div>
-                          <div class="d-flex px-xxl-4 px-lg-2 p-4 gap-xxl-3 gap-lg-1 gap-3 justify-content-between">
-                            <div style="display: block; margin: 0 auto;" class="d-flex">
-                                <div class="me-2">
-                                  <span class="badge bg-label-primary p-2"><i class="bx bx-calendar text-primary"></i></span>
-                                </div>
-                                <div class="d-flex flex-column">
-                                  <small>data nascita</small>
-                                  <h6 class="mb-0" id="dataNascitaDetails">' . $firstAnimal['data_nascita'] . '</h6>
-                                </div>
                             </div>
-                          </div>
-                      </div>';
+                              </div>
+                            </div>';
 
                       $mysql->close();
                     }
@@ -463,9 +462,7 @@
 
 
 
-                    </div>
-                  </div>
-                </div>
+                    
                 <!-- / Descrizione Animale -->
 
                 <!-- Ricette -->
@@ -691,28 +688,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-  $(document).ready(function () {
-    $('.animal-option').click(function () {
-      var animalId = $(this).data('animal-id');
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
 
-      // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
-      $.ajax({
-        url: 'animal-details.php',
-        type: 'POST',
-        data: { animalId: animalId },
-        success: function (response) {
-          // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
-          $('.animal-details').html(response);
-        },
-        error: function (xhr, status, error) {
-          // Gestisci gli errori della chiamata AJAX
-          console.log(xhr.responseText);
-        }
+          // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
+          $.ajax({
+            url: 'animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
+              $('.animal-details').html(response);
+            },
+            error: function (xhr, status, error) {
+              // Gestisci gli errori della chiamata AJAX
+              console.log(xhr.responseText);
+            }
+          });
+        });
       });
-    });
-  });
-</script>
+    </script>
 
 
   </body>
