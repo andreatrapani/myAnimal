@@ -18,5 +18,5 @@
 
 	$mysql->close();
 
-	header("location: ../client/client.php")
+	echo 'Login successful';
 ?>
