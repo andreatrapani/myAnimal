@@ -112,7 +112,7 @@ if ($a<2): $a=$a+1;?>
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="../client.html" class="app-brand-link">
+            <a href="../client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>

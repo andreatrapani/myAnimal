@@ -87,7 +87,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="client.html" class="app-brand-link">
+            <a href="client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img style="width: 50px" src="../assets/img/myAnimalLogo.png">
               </span>
@@ -251,7 +251,7 @@
 
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
-                <div class="col-lg-8 mb-4 order-0">
+                <div class="col-lg-12 mb-4 order-0">
                   <div class="card">
                     <div class="d-flex align-items-end row">
                       <div class="col-sm-7">
@@ -267,7 +267,7 @@
                           <p class="mb-4">
                             Benvenuto su <span class="fw-bold">myAnimal</span> , qui puoi gestire i tuoi animali domestici e entrare in contatto con il tuo veterinario.                          </p>
 
-                          <a href="javascript:;" class="btn btn-sm btn-outline-primary">Gestisci i tuoi animali</a>
+                          <a href="gestisciAnimale/animale.php" class="btn btn-sm btn-outline-primary">Gestisci i tuoi animali</a>
                           <a href="aggiungiAnimale.html" class="btn btn-sm btn-outline-primary">Aggiungi nuovo animale</a>
                         </div>
                       </div>
@@ -285,72 +285,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-lg-4 col-md-4 order-1">
-                  <div class="row">
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                      <div class="card">
-                        <div class="card-body">
-                          <div class="card-title d-flex align-items-start justify-content-between">
-                            <div class="avatar flex-shrink-0">
-                              <img
-                                src="../assets/img/icons/unicons/injection-success.png"
-                                alt="prossimo vax"
-                                class="rounded"
-                              />
-                            </div>
-                            <div class="dropdown">
-                              <button
-                                class="btn p-0"
-                                type="button"
-                                id="cardOpt3"
-                                data-bs-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                <i class="bx bx-dots-vertical-rounded"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
-                                <a class="dropdown-item" href="javascript:void(0);">Vedi Altro</a>
-                              </div>
-                            </div>
-                          </div>
-                          <span class="fw-semibold d-block mb-1">Prossimo Vaccino</span>
-                          <h3 class="card-title mb-2">Antirabbica</h3>
-                          <small class="text-success fw-semibold">25.05.2023</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                              <div class="card-title d-flex align-items-start justify-content-between">
-                                <div class="avatar flex-shrink-0">
-                                  <img src="../assets/img/icons/unicons/capsule.png" alt="medicnali" class="rounded" />
-                                </div>
-                                <div class="dropdown">
-                                  <button
-                                    class="btn p-0"
-                                    type="button"
-                                    id="cardOpt4"
-                                    data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                  >
-                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                                    <a class="dropdown-item" href="javascript:void(0);">Vedi Altro</a>
-                                  </div>
-                                </div>
-                              </div>
-                              <span class="d-block mb-1">Prossimo medicinale</span>
-                              <h3 class="card-title text-nowrap mb-2">Fortekor Plus</h3>
-                              <small class="text-danger fw-semibold">8:00</small>
-                            </div>
-                          </div>
-                    </div>
-                  </div>
-                </div>
+                
                 <!-- Descrizione Animale -->
                 
 
@@ -363,7 +298,7 @@
                     $risultato = $mysql->query("SELECT *  FROM animali WHERE ufk = (SELECT uid FROM user WHERE username='" . $_COOKIE['username'] . "')");
 
                     if ($risultato->num_rows == 0) {
-                      echo '<div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+                      echo '<div class="col-12 col-lg-12 order-1 order-md-3 order-lg-2 mb-4">
                               <div class="card">
                                 <div class="row row-bordered g-0">
                                   <div class="col-md-12">
@@ -471,156 +406,119 @@
 
                     
                 <!-- / Descrizione Animale -->
+                
 
-                <!-- Ricette -->
-                <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-                    <div class="card h-95">
-                        <div class="card-header d-flex align-items-center justify-content-between">
-                          <h5 class="card-title m-0 me-2">Ricette</h5>
-                        </div>
+                <!-- vaccini e medicine -->
+
+                <div class="col-12 col-md-12 col-lg-4 order-3 order-md-2">
+                  <div class="row">
+                    <div class="col-12 mb-4">
+                      <div class="card">
                         <div class="card-body">
-                          <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 pb-1">
-
-                              <div class="avatar flex-shrink-0 me-3">
-                                <div class="d-flex">
-                                  <div class="me-2">
-                                    <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                  </div>
-                                </div>
+                          <div class="card-title d-flex align-items-start justify-content-between">
+                            <div class="avatar flex-shrink-0">
+                              <img src="../assets/img/icons/unicons/injection-success.png" alt="prossimo vax" class="rounded">
+                            </div>
+                            <span class="fw-semibold d-block mb-1">Prossimo Vaccino</span>
+                            <div class="dropdown">
+                              <button class="btn p-0" type="button" id="cardOpt3" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt3">
+                                <a class="dropdown-item" href="gestisciAnimale/animale.php">Vedi Altro</a>
                               </div>
+                            </div>
+                          </div>
 
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <small class="text-muted d-block mb-1">Ricette</small>
-                                  <h6 class="mb-0">Test1</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                    <i class='bx bx-search-alt-2'></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
+                          <div class="vaccine-details">
+                          <?php
+                          $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
 
-                              <div class="avatar flex-shrink-0 me-3">
-                                <div class="d-flex">
-                                  <div class="me-2">
-                                    <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                  </div>
-                                </div>
-                              </div>
+                          // Ottieni l'ID dell'animale selezionato
+                          $animalId = $firstAnimal['aid'];
 
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <small class="text-muted d-block mb-1">Ricette</small>
-                                  <h6 class="mb-0">Test2</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                    <i class='bx bx-search-alt-2'></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
+                          $risultato = $mysql->query("SELECT * FROM vaccini_animali WHERE fkidA = $animalId AND data >= CURDATE() ORDER BY data");
+                          if ($risultato->num_rows == 0) {
+                            echo '
+                            <h3 class="card-title mb-2">Nessun Vaccino da effettuare</h3>
+                            <small class="text-success fw-semibold"></small>';
+                          } else {
+                            $vaccino = $risultato->fetch_assoc();
 
-                              <div class="avatar flex-shrink-0 me-3">
-                                <div class="d-flex">
-                                  <div class="me-2">
-                                    <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                  </div>
-                                </div>
-                              </div>
+                            $nome_query = $mysql->query("SELECT nome FROM vaccini WHERE idV = " . $vaccino['fkidV']);
+                            $nome_riga = $nome_query->fetch_assoc();
+                            $nome = $nome_riga['nome'];
 
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <small class="text-muted d-block mb-1">Ricette</small>
-                                  <h6 class="mb-0">Test3</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                    <i class='bx bx-search-alt-2'></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
-                            <li class="d-flex mb-4 pb-1">
+                            echo '
+                            <h3 class="card-title mb-2">' . $nome . '</h3>
+                            <small class="text-success fw-semibold">' . $vaccino['data'] . '</small>';
+                          }
 
-                              <div class="avatar flex-shrink-0 me-3">
-                                <div class="d-flex">
-                                  <div class="me-2">
-                                    <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                  </div>
-                                </div>
-                              </div>
+                          $mysql->close();
+                          ?>
+                          </div>
 
-                              <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                <div class="me-2">
-                                  <small class="text-muted d-block mb-1">Ricette</small>
-                                  <h6 class="mb-0">Test4</h6>
-                                </div>
-                                <div class="user-progress d-flex align-items-center gap-1">
-                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                    <i class='bx bx-search-alt-2'></i>
-                                  </button>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
                         </div>
                       </div>
+                    </div>
+                    <div class="col-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="card-title d-flex align-items-start justify-content-between">
+                    <div class="avatar flex-shrink-0">
+                      <img src="../assets/img/icons/unicons/capsule.png" alt="medicinali" class="rounded">
+                    </div>
+                    <span class="fw-semibold d-block mb-1">Prossimo Medicinale Oggi</span>
+                    <div class="dropdown">
+                      <button class="btn p-0" type="button" id="cardOpt4" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="bx bx-dots-vertical-rounded"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
+                        <a class="dropdown-item" href="gestisciAnimale/animale.php">Vedi Altro</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="medicine-details">
+                    <?php
+                    $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
+
+                    // Ottieni l'ID dell'animale selezionato
+                    $animalId = $firstAnimal['aid'];
+
+                    $risultato = $mysql->query("SELECT * FROM medicinali_animali WHERE fkidA = $animalId AND DATE_ADD(data_inizio, INTERVAL durata WEEK) >= CURDATE() AND ora >= NOW() ORDER BY ora LIMIT 1");
+                    if ($risultato->num_rows == 0) {
+                      echo '
+                      <h3 class="card-title mb-2">Nessun Medicinale per oggi</h3>
+                      <small class="text-danger fw-semibold"></small>';
+                    } else {
+                      $medicinale = $risultato->fetch_assoc();
+
+                      $nome_query = $mysql->query("SELECT nome FROM medicinali WHERE idM = " . $medicinale['fkidM']);
+                      $nome_riga = $nome_query->fetch_assoc();
+                      $nome = $nome_riga['nome'];
+
+                      echo '
+                      <h3 class="card-title mb-2">' . $nome . '</h3>
+                      <small class="text-danger fw-semibold">' . $medicinale['ora'] . '</small>';
+                    }
+
+                    $mysql->close();
+                    ?>
+                  </div>
                 </div>
+              </div>
+            </div>
+
+                  </div>
+                </div>
+
                 
-                <!-- / Ricette -->
+                <!-- vaccini e medicine -->
 
               </div>
             </div>
             
             <!-- / Content -->
-
-            <!-- Modal -->
-            <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col mb-3">
-                        <label for="nameExLarge" class="form-label">Name</label>
-                        <input type="text" id="nameExLarge" class="form-control" placeholder="Enter Name" />
-                      </div>
-                    </div>
-                    <div class="row g-2">
-                      <div class="col mb-0">
-                        <label for="emailExLarge" class="form-label">Email</label>
-                        <input type="text" id="emailExLarge" class="form-control" placeholder="xxxx@xxx.xx" />
-                      </div>
-                      <div class="col mb-0">
-                        <label for="dobExLarge" class="form-label">DOB</label>
-                        <input type="text" id="dobExLarge" class="form-control" placeholder="DD / MM / YY" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- / Modal -->
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
@@ -690,7 +588,6 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 
     <!-- ajaxCall -->
-    <script src="../assets/js/ajaxCall.js"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -776,6 +673,46 @@
         });
       });
     </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+
+          // Esegui una chiamata AJAX per ottenere i dettagli dei vaccini dell'animale selezionato
+          $.ajax({
+            url: 'vaccine-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              $('.vaccine-details').html(response);
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+
+          // Esegui una chiamata AJAX per ottenere i dettagli dei medicinali dell'animale selezionato
+          $.ajax({
+            url: 'medicine-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              $('.medicine-details').html(response);
+            }
+          });
+        });
+      });
+    </script>
+
+
+
+
 
 
 
