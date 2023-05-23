@@ -259,7 +259,7 @@
                           <?php
                           if (isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
                             // user is logged in
-                            echo '<h5 class="card-title text-primary"> Ciao ' . $_COOKIE['email'] . "</h5>";
+                            echo '<h5 class="card-title text-primary"> Ciao ' . $_COOKIE['username'] . "</h5>";
                           } else {
                             // user is not logged in
                           }
@@ -438,20 +438,27 @@
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">';
 
-                                                foreach ($animali as $animal) {
-                                                  echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>';
-                                                }
+                      foreach ($animali as $animal) {
+                        echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>';
+                      }
 
-                                                echo '</div>
-                                      </div>
-                                  </div>
-                                </div>
-                                <br><br>
-                                <img style=" display: block; margin: 0 auto;" src="../assets/img/animals/cane.png">
-                            </div>
-                            </div>
-                              </div>
-                            </div>';
+                      echo '</div>
+                          </div>
+                        </div>
+                      </div>
+                      <br><br>';
+
+                      if ($firstAnimal['tipologia'] == 'cane') {
+                        echo '<img class="animal-image" style="display: block; margin: 0 auto;" src="../assets/img/animals/cane.png">';
+                      } else {
+                        echo '<img class="animal-image" style="display: block; margin: 0 auto;" src="../assets/img/animals/gatto.png">';
+                      }
+
+                      echo '
+                    </div>
+                    </div>
+                    </div>
+                    </div>';
 
                       $mysql->close();
                     }
@@ -710,6 +717,67 @@
         });
       });
     </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+          var animalButton = $(this); // Salva il riferimento al pulsante
+
+          // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
+          $.ajax({
+            url: 'animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
+              $('.animal-details').html(response);
+
+              // Cambia il nome del pulsante con il nome dell'animale selezionato
+              var animalName = animalButton.text(); // Usa il riferimento al pulsante salvato
+              $('#growthReportId').text(animalName);
+            },
+            error: function (xhr, status, error) {
+              // Gestisci gli errori della chiamata AJAX
+              console.log(xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+          var animalButton = $(this);
+
+          $.ajax({
+            url: 'animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              $('.animal-details').html(response);
+
+              var animalName = animalButton.text();
+              $('#growthReportId').text(animalName);
+
+              // Modifica l'immagine in base alla tipologia dell'animale
+              if (response.includes('cane')) {
+                $('img.animal-image').attr('src', '../assets/img/animals/cane.png');
+              } else if (response.includes('gatto')) {
+                $('img.animal-image').attr('src', '../assets/img/animals/gatto.png');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+
+
 
 
   </body>

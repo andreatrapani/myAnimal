@@ -87,21 +87,13 @@
 
               <form id="formAuthentication" class="mb-3">
                 <div class="mb-3">
-                  <?php
-                    if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
-                        // user is logged in
-                        echo "ciao ".$_COOKIE['email'].", per uscire clicca <a href='/maproject/myAnimal/login/signout.php'>qui</a>";
-                    } else {
-                        // user is not logged in
-                    }
-                  ?>
-                  <label for="email" class="form-label">Email or Username</label>
+                  <label for="email" class="form-label">Username</label>
                   <input
                     type="text"
                     class="form-control"
                     id="username"
                     name="username"
-                    placeholder="Enter your email or username"
+                    placeholder="Enter your username"
                     autofocus
                     required
                   />
