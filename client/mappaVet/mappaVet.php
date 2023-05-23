@@ -92,9 +92,15 @@
       // Aggiunge un marker per ogni punto
       var markers = [
         {lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
-        {lat: 41.9019, lng: 12.4928, title: 'Punto 2'},
-        {lat: 41.9045, lng: 12.4919, title: 'Punto 3'}
+        {lat: 41.9019, lng: 12.4928, title: 'Punto 2'}
       ];
+
+      <?php foreach ($vets as $vet): ?>
+        markers.push(
+          {lat: <?php echo $vet['Lat']; ?>, lng: 12.4919, title: 'Punto 3'},
+          {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>, title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>', content: ""}
+        );
+      <?php endforeach; ?>
 
       markers.forEach(function(marker) {
         new google.maps.Marker({
