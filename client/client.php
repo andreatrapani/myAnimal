@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+include_once '../login/check-login.php';
+?><!DOCTYPE html>
 
 <!-- =========================================================
 * Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
@@ -198,10 +200,10 @@
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                            if (isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
                               // user is logged in
-                              echo '<span class="fw-semibold d-block">' . $_COOKIE['username'] . " </span>";
-                              echo '<small class="text-muted">' . $_COOKIE['email'] . "</small>";
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
                             } else {
                               // user is not logged in
                             }
@@ -257,9 +259,9 @@
                       <div class="col-sm-7">
                         <div class="card-body">
                           <?php
-                          if (isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                          if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
                             // user is logged in
-                            echo '<h5 class="card-title text-primary"> Ciao ' . $_COOKIE['username'] . "</h5>";
+                            echo '<h5 class="card-title text-primary"> Ciao ' . $_SESSION['username'] . "</h5>";
                           } else {
                             // user is not logged in
                           }
@@ -295,7 +297,7 @@
                     <?php
                     $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
 
-                    $risultato = $mysql->query("SELECT *  FROM animali WHERE ufk = (SELECT uid FROM user WHERE username='" . $_COOKIE['username'] . "')");
+                    $risultato = $mysql->query("SELECT *  FROM animali WHERE ufk = (SELECT uid FROM user WHERE username='" . $_SESSION['username'] . "')");
 
                     if ($risultato->num_rows == 0) {
                       echo '<div class="col-12 col-lg-12 order-1 order-md-3 order-lg-2 mb-4">
@@ -590,36 +592,10 @@
     <!-- ajaxCall -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(document).ready(function () {
         $('.animal-option').click(function () {
           var animalId = $(this).data('animal-id');
-
-          // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
-          $.ajax({
-            url: 'animal-details.php',
-            type: 'POST',
-            data: { animalId: animalId },
-            success: function (response) {
-              // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
-              $('.animal-details').html(response);
-            },
-            error: function (xhr, status, error) {
-              // Gestisci gli errori della chiamata AJAX
-              console.log(xhr.responseText);
-            }
-          });
-        });
-      });
-    </script>
-
-    <script>
-      $(document).ready(function () {
-        $('.animal-option').click(function () {
-          var animalId = $(this).data('animal-id');
-          var animalButton = $(this); // Salva il riferimento al pulsante
 
           // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
           $.ajax({
@@ -631,32 +607,7 @@
               $('.animal-details').html(response);
 
               // Cambia il nome del pulsante con il nome dell'animale selezionato
-              var animalName = animalButton.text(); // Usa il riferimento al pulsante salvato
-              $('#growthReportId').text(animalName);
-            },
-            error: function (xhr, status, error) {
-              // Gestisci gli errori della chiamata AJAX
-              console.log(xhr.responseText);
-            }
-          });
-        });
-      });
-    </script>
-
-    <script>
-      $(document).ready(function () {
-        $('.animal-option').click(function () {
-          var animalId = $(this).data('animal-id');
-          var animalButton = $(this);
-
-          $.ajax({
-            url: 'animal-details.php',
-            type: 'POST',
-            data: { animalId: animalId },
-            success: function (response) {
-              $('.animal-details').html(response);
-
-              var animalName = animalButton.text();
+              var animalName = $(this).text();
               $('#growthReportId').text(animalName);
 
               // Modifica l'immagine in base alla tipologia dell'animale
@@ -667,17 +618,10 @@
               }
             },
             error: function (xhr, status, error) {
+              // Gestisci gli errori della chiamata AJAX
               console.log(xhr.responseText);
             }
           });
-        });
-      });
-    </script>
-
-    <script>
-      $(document).ready(function () {
-        $('.animal-option').click(function () {
-          var animalId = $(this).data('animal-id');
 
           // Esegui una chiamata AJAX per ottenere i dettagli dei vaccini dell'animale selezionato
           $.ajax({
@@ -688,14 +632,6 @@
               $('.vaccine-details').html(response);
             }
           });
-        });
-      });
-    </script>
-
-    <script>
-      $(document).ready(function () {
-        $('.animal-option').click(function () {
-          var animalId = $(this).data('animal-id');
 
           // Esegui una chiamata AJAX per ottenere i dettagli dei medicinali dell'animale selezionato
           $.ajax({
@@ -709,7 +645,6 @@
         });
       });
     </script>
-
 
 
 

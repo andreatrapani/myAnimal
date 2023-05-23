@@ -1,22 +1,25 @@
 <?php
-	$username = filter_var(trim($_POST['username']),FILTER_SANITIZE_STRING);
-	$password = filter_var(trim($_POST['password']),FILTER_SANITIZE_STRING);
+session_start();
 
-	//$pass=md5($pass."ghhedr3456");
+$username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
+$password = filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING);
 
-	$mysql=new mysqli('localhost', 'root', '', 'reg-bd');
-	$result=$mysql->query("SELECT * FROM `user` WHERE `username`='$username' AND `password`='$password'");
+$mysql = new mysqli('localhost', 'root', '', 'reg-bd');
+$result = $mysql->query("SELECT * FROM `user` WHERE `username`='$username' AND `password`='$password'");
 
-	$user=$result->fetch_assoc();
-	if(count($user)==0){
-		echo "account non isiste";
-		exit();
-	}
-	setcookie('uid', $user['uid'], time()+3600, "/");
-	setcookie('email', $user['email'], time()+3600, "/");
-	setcookie('username', $user['username'], time()+3600, "/");
+$user = $result->fetch_assoc();
+if (count($user) == 0) {
+  echo "Account does not exist";
+  exit();
+}
 
-	$mysql->close();
+// Start a session for the logged-in user
+$_SESSION['loggedin'] = true;
+$_SESSION['username'] = $user['username'];
+$_SESSION['email'] = $user['email'];
+$_SESSION['uid'] = $user['uid'];
 
-	echo 'Login successful';
+$mysql->close();
+
+echo 'Login successful';
 ?>

@@ -9,7 +9,7 @@ if (isset($_POST['animalId'])) {
 
   if ($risultato->num_rows == 0) {
     echo '
-    <h3 class="card-title mb-2">Nessun Medicinale da prendere</h3>
+    <h3 class="card-title mb-2">Nessun Medicinale per oggi</h3>
     <small class="text-danger fw-semibold"></small>';
   } else {
     $medicinale = $risultato->fetch_assoc();

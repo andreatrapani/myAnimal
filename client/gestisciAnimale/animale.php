@@ -1,7 +1,9 @@
 <?php
 
-// retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+include_once '../../login/check-login.php';
+
+// retrieve the user's UID from the session
+$uid = $_SESSION['uid'];
 
 // retrieve the animal data from the database
 require_once 'animaledb.php';
@@ -205,10 +207,10 @@ if ($a==0): $a=1;?>
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                              if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                              if(isset($_SESSION['email']) && $_SESSION['email'] != '') {
                                   // user is logged in
-                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['username']." </span>";
-                                  echo '<small class="text-muted">'.$_COOKIE['email']."</small>";
+                                  echo '<span class="fw-semibold d-block">'.$_SESSION['username']." </span>";
+                                  echo '<small class="text-muted">'.$_SESSION['email']."</small>";
                               } else {
                                   // user is not logged in
                               }
@@ -287,7 +289,7 @@ if ($a==0): $a=1;?>
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                               <img src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
                               <div class="button-wrapper">
-                                <h1 id="animalName"><p>uid: <?php echo $_COOKIE['uid'] ?></p>Scegli animale</h1>
+                                <h1 id="animalName"><p>uid: <?php echo $_SESSION['uid'] ?></p>Scegli animale</h1>
                                 <p id="animalid" style="display: none;">g</p>
                                 <label class="btn btn-primary me-2 mb-4" tabindex="0">
                                   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

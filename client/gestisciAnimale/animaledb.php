@@ -2,8 +2,10 @@
 
 <?php
 
-// retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+include_once '../../login/check-login.php';
+
+// retrieve the user's UID from the session
+$uid = $_SESSION['uid'];
 
 // connect to the database
 $host = 'localhost'; // your database host name
