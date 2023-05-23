@@ -85,8 +85,16 @@
               <h4 class="mb-2">Benvenuto su MyAnimal</h4>
               <p class="mb-4">Usa il tuo username e la password per accedere</p>
 
-              <form id="formAuthentication" class="mb-3" action="signin.php" method="POST">
+              <form id="formAuthentication" class="mb-3">
                 <div class="mb-3">
+                  <?php
+                    if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                        // user is logged in
+                        echo "ciao ".$_COOKIE['email'].", per uscire clicca <a href='/maproject/myAnimal/login/signout.php'>qui</a>";
+                    } else {
+                        // user is not logged in
+                    }
+                  ?>
                   <label for="email" class="form-label">Email or Username</label>
                   <input
                     type="text"
@@ -115,11 +123,48 @@
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
+
+                <p id="message" style="color: red;"></p>
                 
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit" >Sign in</button>
                 </div>
               </form>
+              <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+              <script type="text/javascript">
+                $(document).ready(function() {
+                $('#formAuthentication').on('submit', function(e) {
+                  e.preventDefault(); // prevent the default form submission behavior
+                  var username = $('#username').val();
+                  var password = $('#password').val();
+
+                  $.ajax({
+                    type: 'POST',
+                    url: 'signin.php',
+                    data: {
+                      username: username,
+                      password: password
+                    },
+                    success: function(response) {
+                      // handle success response here
+                      console.log(response);
+                      if (response === 'Login successful') {
+                        //$('#message').text('Invalid username or password');
+                        window.location.href = '../client/client.php';
+                      } else {
+                        // Show an error message if login fails
+                        $('#message').text('Invalid username or password');
+                      }
+                    },
+                    error: function(xhr, status, error) {
+                      // handle error response here
+                      console.error(error);
+                    }
+                  });
+                });
+              });
+
+              </script>
 
               <p class="text-center">
                 <span>Non hai un account?</span>
@@ -140,7 +185,6 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../assets/vendor/libs/popper/popper.js"></script>
     <script src="../assets/vendor/js/bootstrap.js"></script>
     <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
