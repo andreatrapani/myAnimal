@@ -1,7 +1,8 @@
 <?php
 
 // retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+//$uid = $_COOKIE['uid'];
+$vfk = $_COOKIE['vfk'];
 
 // retrieve the vet data from the database
 require_once 'myVetdb.php';?>
@@ -98,7 +99,7 @@ require_once 'myVetdb.php';?>
         var markers = [];
 
         <?php foreach ($vets as $vet): ?>
-          <?php if ($vet['ufk'] == $_COOKIE['uid']): ?>
+          <?php if ($vet['vid'] == $vfk): ?>
             markers.push(
               {
                 lat: <?php echo $vet['Lat']; ?>,
