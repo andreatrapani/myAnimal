@@ -4,6 +4,8 @@ session_start();
 $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
 $password = filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING);
 
+$password=md5($password."ghhedr3456");
+
 $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
 $result = $mysql->query("SELECT * FROM `user` WHERE `username`='$username' AND `password`='$password'");
 
