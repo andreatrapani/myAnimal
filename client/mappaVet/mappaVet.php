@@ -1,3 +1,20 @@
+<?php
+
+// retrieve the user's UID from the cookie
+$uid = $_COOKIE['uid'];
+
+// retrieve the animal data from the database
+require_once 'vetdb.php';
+$a=0;
+if ($a==0): $a=1;?>
+        <p>Nessun animale trovato.</p>
+    <?php else: 
+        $vets = json_decode(urldecode($_GET['vets']), true);
+
+        ?>
+    <?php endif; ?>
+
+?>
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -73,44 +90,59 @@
 
      <style>
     #map {
-      height: 400px;
+      height: 600px;
       width: 100%;
     }
   </style>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUR0QMeyV2rCHlvNBTKkP6uAUQxoGPecA"></script>
   <script>
-    function initMap() {
-      // Imposta la posizione della mappa
-      var myLatLng = {lat: 41.9028, lng: 12.4964};
+  function initMap() {
+    // Imposta la posizione della mappa
+    var myLatLng = {lat: 41.9028, lng: 12.4964};
 
-      // Crea la mappa
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: myLatLng
+    // Crea la mappa
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 12,
+      center: myLatLng
+    });
+
+    // Aggiunge un marker per ogni punto
+    var markers = [
+      /*{lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
+      {lat: 41.9019, lng: 12.4928, title: 'Punto 2'}*/
+    ];
+
+    <?php foreach ($vets as $vet): ?>
+      markers.push(
+        {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>, title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>', content: '<div><h5><?php echo $vet['Nome'] . " " . $vet['Cognome']; ?></h5><p>Email: <?php echo $vet['Email']; ?></p><p>Telefono: <?php echo $vet['Telefono']; ?></p></p><p>Indirizzo: <?php echo $vet['Indirizzo']; ?></p></div>'}
+      );
+    <?php endforeach; ?>
+
+    markers.forEach(function(marker) {
+      var gMarker = new google.maps.Marker({
+        position: marker,
+        map: map,
+        title: marker.title
       });
 
-      // Aggiunge un marker per ogni punto
-      var markers = [
-        {lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
-        {lat: 41.9019, lng: 12.4928, title: 'Punto 2'}
-      ];
-
-      <?php foreach ($vets as $vet): ?>
-        markers.push(
-          {lat: <?php echo $vet['Lat']; ?>, lng: 12.4919, title: 'Punto 3'},
-          {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>, title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>', content: ""}
-        );
-      <?php endforeach; ?>
-
-      markers.forEach(function(marker) {
-        new google.maps.Marker({
-          position: marker,
-          map: map,
-          title: marker.title
-        });
+      // Create an info window for each marker
+      var infoWindow = new google.maps.InfoWindow({
+        content: marker.content
       });
-    }
-  </script>
+
+      // Open the info window when marker is clicked
+      gMarker.addListener('click', function() {
+        infoWindow.open(map, gMarker);
+      });
+
+      // Close the info window when "X" is clicked
+      infoWindow.addListener('closeclick', function() {
+        infoWindow.close();
+      });
+    });
+  }
+</script>
+
   </head>
 
   <body>
@@ -121,7 +153,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="../client.php" class="app-brand-link">
+            <a href="../client.html" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>
@@ -138,9 +170,9 @@
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="../client.php" class="menu-link">
+              <a href="../client.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="home">Home</div>
+                <div data-i18n="home"><?php echo $vets[0]['Lat'] ?></div>
               </a>
             </li>
             
@@ -285,8 +317,11 @@
           <div class="content-wrapper">
               <!-- Content -->
             </div>
-            <div id="map"></div>
 
+            <div class="card-body">
+            <div class="col-xl-12 col-lg-5">
+            <div id="map"></div>
+          </div></div>
           <script>
             window.onload = initMap;
           </script>
@@ -360,52 +395,4 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
-</html>
-
-
-<!--DOCTYPE html>
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Map Example</title>
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-    }
-  </style>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUR0QMeyV2rCHlvNBTKkP6uAUQxoGPecA"></script>
-  <script>
-    function initMap() {
-      // Imposta la posizione della mappa
-      var myLatLng = {lat: 41.9028, lng: 12.4964};
-
-      // Crea la mappa
-      var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 12,
-        center: myLatLng
-      });
-
-      // Aggiunge un marker per ogni punto
-      var markers = [
-        {lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
-        {lat: 41.9019, lng: 12.4928, title: 'Punto 2'},
-        {lat: 41.9045, lng: 12.4919, title: 'Punto 3'}
-      ];
-
-      markers.forEach(function(marker) {
-        new google.maps.Marker({
-          position: marker,
-          map: map,
-          title: marker.title
-        });
-      });
-    }
-  </script>
-</head>
-<body onload="initMap()">
-  <div id="map"></div>
-</body>
-</html>
-
 </html>
