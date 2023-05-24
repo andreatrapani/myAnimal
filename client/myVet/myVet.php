@@ -1,4 +1,10 @@
+<?php
 
+// retrieve the user's UID from the cookie
+$uid = $_COOKIE['uid'];
+
+// retrieve the vet data from the database
+require_once 'myVetdb.php';?>
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -71,6 +77,61 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
+    <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+    </style>
+    <script>
+      function initMap() {
+        // Imposta la posizione della mappa
+        var myLatLng = {lat: 41.8, lng: 15.7};
+
+        // Crea la mappa
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 5.8,
+          center: myLatLng
+        });
+
+        // Aggiunge un marker per ogni punto
+        var markers = [];
+
+        <?php foreach ($vets as $vet): ?>
+          <?php if ($vet['ufk'] == $_COOKIE['uid']): ?>
+            markers.push(
+              {
+                lat: <?php echo $vet['Lat']; ?>,
+                lng: <?php echo $vet['Lon']; ?>,
+                title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>',
+                content: '<div><h5><?php echo $vet['Nome'] . " " . $vet['Cognome']; ?></h5><p>Email: <?php echo $vet['Email']; ?></p><p>Telefono: <?php echo $vet['Telefono']; ?></p><p>Indirizzo: <?php echo $vet['Indirizzo']; ?></p></div>'
+              }
+            );
+          <?php endif; ?>
+        <?php endforeach; ?>
+
+        markers.forEach(function(marker) {
+          var gMarker = new google.maps.Marker({
+            position: marker,
+            map: map,
+            title: marker.title
+          });
+
+          // Create an info window for each marker
+          var infoWindow = new google.maps.InfoWindow({
+            content: marker.content
+          });
+
+          gMarker.addListener('click', function() {
+            infoWindow.open(map, gMarker);
+          });
+
+          infoWindow.addListener('closeclick', function() {
+            infoWindow.close();
+          });
+        });
+      }
+    </script>
   </head>
 
   <body>
@@ -145,7 +206,7 @@
               </li>
             <!-- Map -->
             <li class="menu-item">
-              <a href="mappaVet/mappaVet.html" class="menu-link">
+              <a href="../mappaVet/mappaVet.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-map-alt"></i>
                 <div data-i18n="veterinari-maps">Mappa Veterinari</div>
               </a>
@@ -170,17 +231,6 @@
 
             <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
               <!-- Search -->
-              <div class="navbar-nav align-items-center">
-                <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
-                </div>
-              </div>
               <!-- /Search -->
 
               <ul class="navbar-nav flex-row align-items-center ms-auto">
@@ -258,14 +308,8 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <!-- Descrizione Animale -->
-                <?php
-
-// retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
-
-// retrieve the vet data from the database
-require_once 'myVetdb.php';
-
+                
+<?php
 // check if any vets were found
 if (count($vets) == 0):
 ?>
@@ -273,14 +317,14 @@ if (count($vets) == 0):
 <?php else: ?>
   <!-- Your existing HTML code here -->
   <!-- Iterate over the vets array and display the data -->
-  <?php foreach ($vets as $vet): ?>
-    <div class="col-12 col-lg-8 order-2 order-md-3 order-lg-2 mb-4">
+  
+    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
       <div class="card">
         <div class="row row-bordered g-0">
-          <div class="col-md-8">
+          <div class="col-md-12">
             <!-- Display the vet data here -->
             <div class="card">
-              <h5 class="card-header m-0 me-2 pb-3">Descrizione</h5>
+              <h5 class="card-header m-0 me-2 pb-3">VETERINARIO</h5>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
@@ -322,59 +366,25 @@ if (count($vets) == 0):
         </div>
       </div>
     </div>
-  <?php endforeach; ?>
+  
 <?php endif; ?>
 
                 <!-- / Descrizione Animale -->
-
+                
                 
 
               </div>
             </div>
-            
+            <div class="card-body">
+            <div class="col-xl-12 col-lg-5">
+            <div id="map"></div>
+          </div></div>
+          <script>
+            window.onload = initMap;
+          </script>
             <!-- / Content -->
 
-            <!-- Modal -->
-            <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col mb-3">
-                        <label for="nameExLarge" class="form-label">Name</label>
-                        <input type="text" id="nameExLarge" class="form-control" placeholder="Enter Name" />
-                      </div>
-                    </div>
-                    <div class="row g-2">
-                      <div class="col mb-0">
-                        <label for="emailExLarge" class="form-label">Email</label>
-                        <input type="text" id="emailExLarge" class="form-control" placeholder="xxxx@xxx.xx" />
-                      </div>
-                      <div class="col mb-0">
-                        <label for="dobExLarge" class="form-label">DOB</label>
-                        <input type="text" id="dobExLarge" class="form-control" placeholder="DD / MM / YY" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- / Modal -->
+            
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
