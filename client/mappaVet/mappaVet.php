@@ -98,11 +98,11 @@ if ($a==0): $a=1;?>
   <script>
   function initMap() {
     // Imposta la posizione della mappa
-    var myLatLng = {lat: 41.9028, lng: 12.4964};
+    var myLatLng = {lat: 41.8, lng: 15.7};
 
     // Crea la mappa
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
+      zoom: 5.8,
       center: myLatLng
     });
 
