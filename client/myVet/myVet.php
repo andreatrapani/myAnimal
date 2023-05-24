@@ -86,11 +86,11 @@ require_once 'myVetdb.php';?>
     <script>
       function initMap() {
         // Imposta la posizione della mappa
-        var myLatLng = {lat: 41.8, lng: 15.7};
+        var myLatLng = {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>};
 
         // Crea la mappa
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 5.8,
+          zoom: 15,
           center: myLatLng
         });
 
