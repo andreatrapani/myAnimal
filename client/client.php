@@ -592,6 +592,8 @@ include_once '../login/check-login.php';
     <!-- ajaxCall -->
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
       $(document).ready(function () {
         $('.animal-option').click(function () {
@@ -605,9 +607,58 @@ include_once '../login/check-login.php';
             success: function (response) {
               // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
               $('.animal-details').html(response);
+            },
+            error: function (xhr, status, error) {
+              // Gestisci gli errori della chiamata AJAX
+              console.log(xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+          var animalButton = $(this); // Salva il riferimento al pulsante
+
+          // Esegui una chiamata AJAX per ottenere i dettagli dell'animale selezionato
+          $.ajax({
+            url: 'animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              // Aggiorna la sezione dei dettagli dell'animale con i dati ricevuti dalla chiamata AJAX
+              $('.animal-details').html(response);
 
               // Cambia il nome del pulsante con il nome dell'animale selezionato
-              var animalName = $(this).text();
+              var animalName = animalButton.text(); // Usa il riferimento al pulsante salvato
+              $('#growthReportId').text(animalName);
+            },
+            error: function (xhr, status, error) {
+              // Gestisci gli errori della chiamata AJAX
+              console.log(xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+          var animalButton = $(this);
+
+          $.ajax({
+            url: 'animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              $('.animal-details').html(response);
+
+              var animalName = animalButton.text();
               $('#growthReportId').text(animalName);
 
               // Modifica l'immagine in base alla tipologia dell'animale
@@ -618,10 +669,17 @@ include_once '../login/check-login.php';
               }
             },
             error: function (xhr, status, error) {
-              // Gestisci gli errori della chiamata AJAX
               console.log(xhr.responseText);
             }
           });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
 
           // Esegui una chiamata AJAX per ottenere i dettagli dei vaccini dell'animale selezionato
           $.ajax({
@@ -632,6 +690,14 @@ include_once '../login/check-login.php';
               $('.vaccine-details').html(response);
             }
           });
+        });
+      });
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
 
           // Esegui una chiamata AJAX per ottenere i dettagli dei medicinali dell'animale selezionato
           $.ajax({
