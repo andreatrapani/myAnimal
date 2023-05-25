@@ -2,20 +2,6 @@
 
 include_once '../../login/check-login.php';
 
-// retrieve the user's UID from the session
-$uid = $_SESSION['uid'];
-
-// retrieve the animal data from the database
-require_once 'animaledb.php';
-$a=0;
-if ($a==0): $a=1;?>
-        <p>Nessun animale trovato.</p>
-    <?php else: 
-        $animali = json_decode(urldecode($_GET['animali']), true);
-
-        ?>
-    <?php endif; ?>
-
 ?>
 
 
@@ -49,7 +35,7 @@ if ($a==0): $a=1;?>
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>MyAnimal -  Rex</title>
+    <title>MyAnimal -  Gestisci Animale</title>
 
     <meta name="description" content="" />
 
@@ -96,7 +82,7 @@ if ($a==0): $a=1;?>
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="../client.php" class="app-brand-link">
+            <a href="../home/client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>
@@ -113,7 +99,7 @@ if ($a==0): $a=1;?>
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="../client.php" class="menu-link">
+              <a href="../home/client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -131,7 +117,7 @@ if ($a==0): $a=1;?>
               </a>
             </li>
             <li class="menu-item">
-              <a href="../aggiungiAnimale.html" class="menu-link">
+              <a href="../aggiungi/aggiungiAnimale.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-plus"></i>
                 <div data-i18n="add-animal">Aggiungi Animale</div>
               </a>
@@ -148,7 +134,7 @@ if ($a==0): $a=1;?>
               </li>
             <!-- Map -->
             <li class="menu-item">
-              <a href="../mappaVet/mappaVet.html" class="menu-link">
+              <a href="../mappaVet/mappaVet.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-map-alt"></i>
                 <div data-i18n="veterinari-maps">Mappa Veterinari</div>
               </a>
@@ -207,13 +193,13 @@ if ($a==0): $a=1;?>
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                              if(isset($_SESSION['email']) && $_SESSION['email'] != '') {
-                                  // user is logged in
-                                  echo '<span class="fw-semibold d-block">'.$_SESSION['username']." </span>";
-                                  echo '<small class="text-muted">'.$_SESSION['email']."</small>";
-                              } else {
-                                  // user is not logged in
-                              }
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+                              // user is logged in
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
+                            } else {
+                              // user is not logged in
+                            }
                             ?>
                             <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
                             <small class="text-muted">User</small>-->
@@ -240,7 +226,7 @@ if ($a==0): $a=1;?>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="../login/signout.php">
+                      <a class="dropdown-item" href="../../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -258,95 +244,102 @@ if ($a==0): $a=1;?>
           <div class="content-wrapper">
             <!-- Content -->
 
-            <div class="container-xxl flex-grow-1 container-p-y">
+            <?php
+            $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
+
+            $risultato = $mysql->query("SELECT *  FROM animali WHERE ufk = (SELECT uid FROM user WHERE username='" . $_SESSION['username'] . "')");
+
+            if ($risultato->num_rows == 0) {
+              echo '<div class="container-xxl flex-grow-1 container-p-y">
+                <div class="row">
+                  <!-- Form -->
+                  <div class="container-xxl flex-grow-1 container-p-y">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <!-- Intestazione -->
+                          <div class="card mb-4">
+                            <div class="card-body">
+                              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                
+                                <div class="button-wrapper">
+                                  <h1>NESSUN ANIMALE PRESENTE</h1>
+                                  <label class="btn btn-primary me-2 mb-4" tabindex="0">
+                                    <a href="../aggiungi/aggiungiAnimale.html"><button type="button" class="btn btn-primary">Aggiungi ora</button></a>
+                                  </label>
+                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- / Form -->
+                </div>
+              </div>
+                                ';
+              exit();
+            } else {
+              $animali = array(); // Array per memorizzare gli animali
+              while ($row = $risultato->fetch_assoc()) {
+                $animali[] = $row; // Aggiungi ogni animale all'array
+              }
+              $firstAnimal = $animali[0]; // Primo animale
+              echo'
+              <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <!-- Form -->
+                
                 <div class="container-xxl flex-grow-1 container-p-y">
                   <div class="btn-group">
-                      <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Scegli animale
-                      </button>
-                      <ul class="dropdown-menu">
+                  <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" id="growthReportId" aria-expanded="false">
+                                            ' . $firstAnimal['nome'] . '
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">';
 
-                        <?php
-                        //$animali = json_decode(urldecode($_GET['animali']), true);
+                      foreach ($animali as $animal) {
+                        echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>
+                        ';
+                      }
 
-                        // iterate over the animal data and display it
-                        foreach ($animali as $animal) {
-                        ?>
-                        <li><a class="dropdown-item" href="javascript:void(0);" data-animal="<?php echo $animal['Nome']; ?>" data-aid="<?php echo $animal['aid'] ?>"><?php echo $animal['Nome'] ?></a></li>
-                        <?php } ?>
-                        <li><a class="dropdown-item" href="javascript:void(0);">Alx</a></li>
-                      </ul>
+                      echo '</div>
+
                   </div>
                   <br><br>
                     <div class="row">
                       
                       <div class="col-md-12">
                         <!-- Intestazione -->
-                         <div class="card mb-4">
+                        <div class="card mb-4">
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
-                              <img src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                            ';
+                            if ($firstAnimal['tipologia'] == 'cane') {
+                              echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
+                              ';
+                            } else {
+                              echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                              ';
+                            }
+      
+                            echo '
+                            
                               <div class="button-wrapper">
-                                <h1 id="animalName"><p>uid: <?php echo $_SESSION['uid'] ?></p>Scegli animale</h1>
-                                <p id="animalid" style="display: none;">g</p>
+                                <h1 id="animalName">' . $firstAnimal['nome'] .  '</h1>
                                 <label class="btn btn-primary me-2 mb-4" tabindex="0">
-                                  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                                  <script>
-                                    $(document).ready(function() {
-                                      // Attach a change event listener to the dropdown
-                                      $(".dropdown-menu a.dropdown-item").on("click", function() {
-                                        var animalName = $(this).data("animal");
-                                        var daid = $(this).data("aid");
-                                        var tipo = $(this).data("type");
-                                        $("#animalName").text(animalName); // Update the animal name
-                                        $("#animalid").text(daid);
-
-                                        // Determine the image source based on the 'tipo' variable
-                                        var imageSrc;
-                                        if (tipo === "cane") {
-                                          imageSrc = "../../assets/img/animals/cane.png";
-                                        } else if (tipo === "gatto") {
-                                          imageSrc = "../../assets/img/animals/gatto.png";
-                                        } else {
-                                          // Default image source if tipo is not recognized
-                                          imageSrc = "../../assets/img/animals/default.png";
-                                        }
-
-                                        // Update the image source
-                                        $("#uploadedAvatar").attr("src", imageSrc);
-
-                                        // Create the link element
-                                        var link = $('<a>', {
-                                          href: '../modificaAnimale/modifica.php?daid=' + encodeURIComponent(daid),
-                                          class: 'btn btn-primary',
-                                          text: 'Modifica Animale'
-                                        });
-
-                                        // Create the button element
-                                        var button = $('<button>', {
-                                          type: 'button'
-                                        }).append(link);
-
-                                        var h1 = $('<h1>').text(animalName).append("<br>").append(link);
-
-                                        // Replace the existing button with the dynamic link
-                                        $('.button-wrapper').empty().append(button);
-                                        $('.button-wrapper').empty().append(h1);
-                                      });
-                                    });
-                                  </script>
+                                  <a href="../modificaAnimale/modifica.html"><button type="button" class="btn btn-primary">Modifica Animale</button></a>
                                 </label>
+                                
                               </div>
                             </div>
                           </div>
                         </div>
                         <!-- / Intestazione -->
+
                         <div class="row">
 
                           <!-- Vaccini -->
-                          <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
+                          <div class="col-md-6 col-lg-6 order-0 mb-4">
                             <div class="card h-100">
                               <div class="card-header d-flex align-items-center justify-content-between">
                                 <h5 class="card-title m-0 me-2">Vaccini</h5>
@@ -366,7 +359,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-success p-25"><i class='bx bxs-vial text-success'></i></span>
+                                          <span class="badge bg-label-success p-25"><i class="bx bxs-vial text-success"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -384,7 +377,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-warning p-25"><i class='bx bxs-vial text-warning'></i></span>
+                                          <span class="badge bg-label-warning p-25"><i class="bx bxs-vial text-warning"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -402,7 +395,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-danger p-25"><i class='bx bxs-vial text-danger'></i></span>
+                                          <span class="badge bg-label-danger p-25"><i class="bx bxs-vial text-danger"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -429,7 +422,7 @@ if ($a==0): $a=1;?>
                           <!-- / Vaccini -->
 
                           <!-- Medicinali -->
-                          <div class="col-md-6 col-lg-4 order-1 mb-4">
+                          <div class="col-md-6 col-lg-6 order-1 mb-4">
                             <div class="card h-100">
                               <div class="card-header d-flex align-items-center justify-content-between">
                                 <h5 class="card-title m-0 me-2">Medicinali</h5>
@@ -440,7 +433,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-danger p-25"><i class='bx bxs-capsule text-danger'></i></span>
+                                          <span class="badge bg-label-danger p-25"><i class="bx bxs-capsule text-danger"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -458,7 +451,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-success p-25"><i class='bx bxs-capsule text-success'></i></span>
+                                          <span class="badge bg-label-success p-25"><i class="bx bxs-capsule text-success"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -476,7 +469,7 @@ if ($a==0): $a=1;?>
                                     <div class="avatar flex-shrink-0 me-3">
                                       <div class="d-flex">
                                         <div class="me-2">
-                                          <span class="badge bg-label-warning p-25"><i class='bx bxs-capsule text-warning'></i></span>
+                                          <span class="badge bg-label-warning p-25"><i class="bx bxs-capsule text-warning"></i></span>
                                         </div>
                                       </div>
                                     </div>
@@ -502,174 +495,6 @@ if ($a==0): $a=1;?>
                           </div>
                           <!-- / Medicinali -->
 
-                          <!-- Ricette -->
-                          <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-                            <div class="card h-95">
-                                <div class="card-header d-flex align-items-center justify-content-between">
-                                  <h5 class="card-title m-0 me-2">Ricette</h5>
-                                </div>
-                                <div class="card-body">
-                                  <ul class="p-0 m-0">
-                                    <li class="d-flex mb-4 pb-1">
-
-                                      <div class="avatar flex-shrink-0 me-3">
-                                        <div class="d-flex">
-                                          <div class="me-2">
-                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                          <small class="text-muted d-block mb-1">Ricette</small>
-                                          <h6 class="mb-0">Test1</h6>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                            <i class='bx bx-search-alt-2'></i>
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="d-flex mb-4 pb-1">
-
-                                      <div class="avatar flex-shrink-0 me-3">
-                                        <div class="d-flex">
-                                          <div class="me-2">
-                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                          <small class="text-muted d-block mb-1">Ricette</small>
-                                          <h6 class="mb-0">Test2</h6>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                            <i class='bx bx-search-alt-2'></i>
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="d-flex mb-4 pb-1">
-
-                                      <div class="avatar flex-shrink-0 me-3">
-                                        <div class="d-flex">
-                                          <div class="me-2">
-                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                          <small class="text-muted d-block mb-1">Ricette</small>
-                                          <h6 class="mb-0">Test3</h6>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                            <i class='bx bx-search-alt-2'></i>
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="d-flex mb-4 pb-1">
-
-                                      <div class="avatar flex-shrink-0 me-3">
-                                        <div class="d-flex">
-                                          <div class="me-2">
-                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                          <small class="text-muted d-block mb-1">Ricette</small>
-                                          <h6 class="mb-0">Test4</h6>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                            <i class='bx bx-search-alt-2'></i>
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li class="d-flex mb-4 pb-1">
-
-                                      <div class="avatar flex-shrink-0 me-3">
-                                        <div class="d-flex">
-                                          <div class="me-2">
-                                            <span class="badge bg-label-primary p-25"><i class="bx bx-file text-primary"></i></span>
-                                          </div>
-                                        </div>
-                                      </div>
-
-                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                        <div class="me-2">
-                                          <small class="text-muted d-block mb-1">Ricette</small>
-                                          <h6 class="mb-0">Test2</h6>
-                                        </div>
-                                        <div class="user-progress d-flex align-items-center gap-1">
-                                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exLargeModal">
-                                            <i class='bx bx-search-alt-2'></i>
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                          </div>
-                        
-                          <!-- / Ricette -->
-
-
-                          <!-- Modal -->
-                        <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
-                          <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
-                                <button
-                                  type="button"
-                                  class="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                ></button>
-                              </div>
-                              <div class="modal-body">
-                                <div class="row">
-                                  <div class="col mb-3">
-                                    <label for="nameExLarge" class="form-label">Name</label>
-                                    <input type="text" id="nameExLarge" class="form-control" placeholder="Enter Name" />
-                                  </div>
-                                </div>
-                                <div class="row g-2">
-                                  <div class="col mb-0">
-                                    <label for="emailExLarge" class="form-label">Email</label>
-                                    <input type="text" id="emailExLarge" class="form-control" placeholder="xxxx@xxx.xx" />
-                                  </div>
-                                  <div class="col mb-0">
-                                    <label for="dobExLarge" class="form-label">DOB</label>
-                                    <input type="text" id="dobExLarge" class="form-control" placeholder="DD / MM / YY" />
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                  Close
-                                </button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- /Modal -->
-
                         </div>
 
                       </div>
@@ -677,8 +502,10 @@ if ($a==0): $a=1;?>
                 </div>
                 <!-- / Form -->
               </div>
-            </div>
+            </div>';
             
+            }
+            ?>
             <!-- / Content -->
 
             <!-- Footer -->
@@ -747,5 +574,39 @@ if ($a==0): $a=1;?>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        $('.animal-option').click(function () {
+          var animalId = $(this).data('animal-id');
+          var animalButton = $(this);
+
+          $.ajax({
+            url: '../home/animal-details.php',
+            type: 'POST',
+            data: { animalId: animalId },
+            success: function (response) {
+              $('.animal-details').html(response);
+
+              var animalName = animalButton.text();
+              $('#growthReportId').text(animalName);
+              $('#animalName').text(animalName);
+
+
+              // Modifica l'immagine in base alla tipologia dell'animale
+              if (response.includes('cane')) {
+                $('img.animal-image').attr('src', '../../assets/img/animals/cane.png');
+              } else if (response.includes('gatto')) {
+                $('img.animal-image').attr('src', '../../assets/img/animals/gatto.png');
+              }
+            },
+            error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+            }
+          });
+        });
+      });
+    </script>
+    
   </body>
 </html>

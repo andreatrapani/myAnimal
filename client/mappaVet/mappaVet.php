@@ -1,7 +1,11 @@
 <?php
 
+include_once '../../login/check-login.php';
+
+
+
 // retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+$uid = $_SESSION['uid'];
 
 // retrieve the animal data from the database
 require_once 'vetdb.php';
@@ -102,7 +106,7 @@ if ($a==0): $a=1;?>
 
     // Crea la mappa
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 12,
+      zoom: 5,
       center: myLatLng
     });
 
@@ -153,14 +157,14 @@ if ($a==0): $a=1;?>
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="../client.html" class="app-brand-link">
+            <a href="../home/client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>
               <span class="app-brand-text demo menu-text fw-bolder ms-2">MyAnimal</span>
             </a>
 
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <a href="../home/client.php" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
               <i class="bx bx-chevron-left bx-sm align-middle"></i>
             </a>
           </div>
@@ -170,9 +174,9 @@ if ($a==0): $a=1;?>
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="../client.html" class="menu-link">
+              <a href="../home/client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="home"><?php echo $vets[0]['Lat'] ?></div>
+                <div data-i18n="home">Home</div>
               </a>
             </li>
             
@@ -182,22 +186,10 @@ if ($a==0): $a=1;?>
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="animale.html" class="menu-link">
-                    <div data-i18n="Rex">Rex</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="animale.html" class="menu-link">
-                    <div data-i18n="Alex">Alex</div>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="menu-item">
               <a href="../aggiungiAnimale.html" class="menu-link">
@@ -217,7 +209,7 @@ if ($a==0): $a=1;?>
               </li>
             <!-- Map -->
             <li class="menu-item active">
-              <a href="../mappaVet/mappaVet.html" class="menu-link">
+              <a href="../mappaVet/mappaVet.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-map-alt"></i>
                 <div data-i18n="veterinari-maps">Mappa Veterinari</div>
               </a>
@@ -275,8 +267,17 @@ if ($a==0): $a=1;?>
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>
+                            <?php
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+                              // user is logged in
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
+                            } else {
+                              // user is not logged in
+                            }
+                            ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -300,7 +301,7 @@ if ($a==0): $a=1;?>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>

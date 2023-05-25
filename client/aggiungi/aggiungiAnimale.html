@@ -31,7 +31,7 @@
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="../assets/"
+  data-assets-path="../../assets/"
   data-template="vertical-menu-template-free"
 >
   <head>
@@ -46,7 +46,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="../../assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,26 +57,27 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="../../assets/vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="../../assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="../../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="../../assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="../../assets/vendor/js/helpers.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../assets/js/config.js"></script>
+    <script src="../../assets/js/config.js"></script>
+
   </head>
 
   <body>
@@ -87,9 +88,9 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="client.php" class="app-brand-link">
+            <a href="../home/client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
-                <img style="width: 50px" src="../assets/img/myAnimalLogo.png">
+                <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>
               <span class="app-brand-text demo menu-text fw-bolder ms-2">MyAnimal</span>
             </a>
@@ -104,7 +105,7 @@
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="client.php" class="menu-link">
+              <a href="../home/client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -116,13 +117,13 @@
             </li>
 
             <li class="menu-item">
-              <a href="gestisciAnimale/animale.php" class="menu-link">
+              <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
             </li>
             <li class="menu-item active">
-              <a href="aggiungiAnimale.html" class="menu-link">
+              <a href="../aggiungi/aggiungiAnimale.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-plus"></i>
                 <div data-i18n="add-animal">Aggiungi Animale</div>
               </a>
@@ -132,14 +133,14 @@
             <li class="menu-header small text-uppercase"><span class="menu-header-text">VETERINARIO</span></li>
             <!-- MyVet -->
             <li class="menu-item">
-                <a href="myVet/myVet.html" class="menu-link">
+                <a href="../myVet/myVet.html" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-band-aid"></i>
                   <div data-i18n="my-vet">Il Mio Veterinario</div>
                 </a>
               </li>
             <!-- Map -->
             <li class="menu-item">
-              <a href="mappaVet/mappaVet.html" class="menu-link">
+              <a href="../mappaVet/mappaVet.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-map-alt"></i>
                 <div data-i18n="veterinari-maps">Mappa Veterinari</div>
               </a>
@@ -184,7 +185,7 @@
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -193,7 +194,7 @@
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
@@ -237,7 +238,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="../login/signout.php">
+                      <a class="dropdown-item" href="../../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -309,7 +310,7 @@
                           <button type="submit" class="btn btn-primary">Aggiungi <i class='bx bx-plus'></i></button>
                         </form>
 
-                        <script src="../assets/vendor/libs/jquery/jquery.js"></script>
+                        <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
                         <script type="text/javascript">
                           $(document).ready(function () {
                             $('form').on('submit', function (e) {
@@ -477,21 +478,21 @@ xhr.send(params);*/
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
     
-    <script src="../assets/vendor/libs/popper/popper.js"></script>
-    <script src="../assets/vendor/js/bootstrap.js"></script>
-    <script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="../../assets/vendor/libs/popper/popper.js"></script>
+    <script src="../../assets/vendor/js/bootstrap.js"></script>
+    <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-    <script src="../assets/vendor/js/menu.js"></script>
+    <script src="../../assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
-    <script src="../assets/js/main.js"></script>
+    <script src="../../assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="../assets/js/dashboards-analytics.js"></script>
+    <script src="../../assets/js/dashboards-analytics.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>

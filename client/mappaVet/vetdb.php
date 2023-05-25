@@ -3,7 +3,7 @@
 <?php
 
 // retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+$uid = $_SESSION['uid'];
 
 // connect to the database
 $host = 'localhost'; // your database host name

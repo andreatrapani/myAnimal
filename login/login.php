@@ -142,7 +142,7 @@
                       console.log(response);
                       if (response === 'Login successful') {
                         //$('#message').text('Invalid username or password');
-                        window.location.href = '../client/client.php';
+                        window.location.href = '../client/home/client.php';
                       } else {
                         // Show an error message if login fails
                         $('#message').text('Invalid username or password');
