@@ -3,6 +3,7 @@
 
 // retrieve the user's UID from the cookie
 $uid = $_COOKIE['uid'];
+//$vfk = $_COOKIE['vfk'];
 
 // connect to the database
 $host = 'localhost'; // your database host name
@@ -18,8 +19,26 @@ if ($mysqli->connect_error) {
     die('Connection failed: ' . $mysqli->connect_error);
 }
 
+$sql = "SELECT * FROM user WHERE `uid`='$uid'";
+
+$result = $mysqli->query($sql);
+
+// check for errors
+if (!$result) {
+    die('Error: ' . $mysqli->error);
+}
+
+// create an array to store the vet data
+$vets = array();
+
+// iterate over the rows and store the data in the array
+while ($row = $result->fetch_assoc()) {
+    $vfk = $row['vfk'];
+}
+
+
 // prepare a SQL query to retrieve data from the "vet" table based on UID and ufk comparison
-$sql = "SELECT * FROM vet WHERE ufk = '$uid'";
+$sql = "SELECT * FROM vet WHERE `vid`='$vfk'";
 
 // execute the query and retrieve the data
 $result = $mysqli->query($sql);

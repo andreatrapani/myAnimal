@@ -5,6 +5,8 @@ $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
 $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
 $password = filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING);
 
+$password=md5($password."ghhedr3456");
+
 $connection = new PDO('mysql:host=localhost;dbname=reg-bd', 'root', '');
 
 // Check if the username already exists in the database
