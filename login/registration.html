@@ -121,6 +121,20 @@
                   <label for="email" class="form-label">Email</label>
                   <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required/>
                 </div>
+               <div class="row">
+                  <div class="col">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Name</label>
+                      <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" required/>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="mb-3">
+                      <label for="surname" class="form-label">Surname</label>
+                      <input type="text" class="form-control" id="surname" name="surname" placeholder="Enter your surname" required/>
+                    </div>
+                  </div>
+                </div>
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
                   <div class="input-group input-group-merge">
@@ -161,6 +175,8 @@
                     e.preventDefault(); // prevent the default form submission behavior
                     var username = $('#username').val();
                     var email = $('#email').val();
+                    var name = $('#name').val();
+                    var surname = $('#surname').val();
                     var password = $('#password').val();
 
                     $.ajax({
@@ -169,6 +185,8 @@
                       data: {
                         username: username,
                         email: email,
+                        name: name,
+                        surname: surname,
                         password: password
                       },
                       success: function(response) {

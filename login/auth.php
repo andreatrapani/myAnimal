@@ -3,6 +3,8 @@ session_start();
 
 $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
 $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
+$nome = filter_var(trim($_POST['name']), FILTER_SANITIZE_STRING);
+$cognome = filter_var(trim($_POST['surname']), FILTER_SANITIZE_STRING);
 $password = filter_var(trim($_POST['password']), FILTER_SANITIZE_STRING);
 
 $password=md5($password."ghhedr3456");
@@ -20,9 +22,11 @@ if ($existingUser) {
   echo "Username is already taken";
 } else {
   // Insert the new user record into the database
-  $insertQuery = $connection->prepare("INSERT INTO user (username, email, password) VALUES (:username, :email, :password)");
+  $insertQuery = $connection->prepare("INSERT INTO user (username, email, nome, cognome, password) VALUES (:username, :email, :nome, :cognome, :password)");
   $insertQuery->bindParam(':username', $username);
   $insertQuery->bindParam(':email', $email);
+  $insertQuery->bindParam(':nome', $nome);
+  $insertQuery->bindParam(':cognome', $cognome);
   $insertQuery->bindParam(':password', $password);
   $insertResult = $insertQuery->execute();
 
