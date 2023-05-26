@@ -260,132 +260,101 @@
               <div class="row">
                 <!-- Form -->
                 <div class="col-xl">
-                    <div class="card mb-4">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Aggiungi animale</h5>
-                      </div>
-                      <div class="card-body">
-                        <form id="formAuthentication" class="mb-3"  method="POST">
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-nome">Nome</label>
-                            <input required type="text" class="form-control" id="basic-default-nome" placeholder="Rex">
+                  <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">Aggiungi animale</h5>
+                    </div>
+                    <div class="card-body">
+                      <form id="formAuthentication" class="mb-3" method="POST">
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-nome">Nome</label>
+                          <input required type="text" class="form-control" id="basic-default-nome" placeholder="Rex">
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-company">Tipologia</label>
+                          <select required class="form-select" id="basic-default-tipologia">
+                            <option>Seleziona...</option>
+                            <option value="cane">cane</option>
+                            <option value="gatto">gatto</option>
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-email">Razza</label>
+                          <input required type="text" class="form-control" id="basic-default-razza" placeholder="Husky">
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-phone">Sesso</label>
+                          <select required class="form-select" id="basic-default-sesso">
+                            <option>Seleziona...</option>
+                            <option value="M">M</option>
+                            <option value="F">F</option>
+                          </select>
+                        </div>
+                        <div class="mb-3">
+                          <label class="form-label" for="basic-default-peso">Peso</label>
+                          <div class="input-group input-group-merge">
+                            <input type="text" id="basic-default-peso" class="form-control" placeholder="12" aria-label="12" aria-describedby="basic-default-peso2">
+                            <span class="input-group-text" id="basic-default-peso2">kg</span>
                           </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-company">Tipologia</label>
-                            <select required class="form-select" id="basic-default-tipologia">
-                              <option>Seleziona...</option>
-                              <option value="cane">cane</option>
-                              <option value="gatto">gatto</option>
-                            </select>
+                        </div>
+                        <div class="mb-3">
+                          <label for="html5-date-input" class="form-label">Data Nascita</label>
+                          <input class="form-control" type="date" value="2017-06-18" id="html5-date-input">
+                        </div>
+                        <div class="mb-3">
+                          <label for="html5-color-input" class="form-label">Colore</label>
+                          <div>
+                            <input class="form-control" type="color" value="#9E7C42" id="html5-color-input">
                           </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-email">Razza</label>
-                            <input required type="text" class="form-control" id="basic-default-razza" placeholder="Husky">
-                          </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-phone">Sesso</label>
-                            <select required class="form-select" id="basic-default-sesso">
-                              <option>Seleziona...</option>
-                              <option value="M">M</option>
-                              <option value="F">F</option>
-                            </select>
-                          </div>
-                          <div class="mb-3">
-                            <label class="form-label" for="basic-default-peso">Peso</label>
-                            <div class="input-group input-group-merge">
-                              <input type="text" id="basic-default-peso" class="form-control" placeholder="12" aria-label="12" aria-describedby="basic-default-peso2">
-                              <span class="input-group-text" id="basic-default-peso2">kg</span>
-                            </div>
-                          </div>
-                          <div class="mb-3">
-                            <label for="html5-date-input" class="form-label">Data Nascita</label>
-                            <input class="form-control" type="date" value="2017-06-18" id="html5-date-input">
-                          </div>
-                          <div class="mb-3">
-                            <label for="html5-color-input" class="form-label">Colore</label>
-                            <div>
-                              <input class="form-control" type="color" value="#9E7C42" id="html5-color-input">
-                            </div>
-                          </div>
-                          <button type="submit" class="btn btn-primary">Aggiungi <i class='bx bx-plus'></i></button>
-                        </form>
-
-                        <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-                        <script type="text/javascript">
-                          $(document).ready(function () {
-                            $('form').on('submit', function (e) {
-                              e.preventDefault(); // prevent the default form submission behavior
-                              var nome = $('#basic-default-nome').val();
-                              var tipologia = $('#basic-default-tipologia').val();
-                              var razza = $('#basic-default-razza').val();
-                              var sesso = $('#basic-default-sesso').val();
-                              var peso = $('#basic-default-peso').val();
-                              var data_nascita = $('#html5-date-input').val();
-                              var colore = $('#html5-color-input').val();
-                              //var ufk = $_COOKIE['uid'];
-                              //var ufk = $("<?php echo $_COOKIE['uid']; ?>").val();
-                              var ufk = document.cookie.replace(/(?:(?:^|.*;\s*)uid\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-
-
-
-                              $.ajax({
-                                type: "POST",
-                                url: "./aggiungiAnimale.php",
-                                data: {
-                                  nome: nome,
-                                  tipologia: tipologia,
-                                  razza: razza,
-                                  sesso: sesso,
-                                  peso: peso,
-                                  data_nascita: data_nascita,
-                                  colore: colore,
-                                  ufk: ufk
-                                },
-                                success: function (data) {
-                                  // handle success response here
-                                  console.log(data);
-                                  $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">hai aggiunto animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
-
-
-                                },
-                                error: function (xhr, status, error) {
-                                  // handle error response here
-                                }
-                              });
+                        </div>
+                        <button type="submit" class="btn btn-primary">Aggiungi <i class='bx bx-plus'></i></button>
+                      </form>
+            
+                      <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
+                      <script type="text/javascript">
+                        $(document).ready(function() {
+                          $('form').on('submit', function(e) {
+                            e.preventDefault(); // prevent the default form submission behavior
+                            var nome = $('#basic-default-nome').val();
+                            var tipologia = $('#basic-default-tipologia').val();
+                            var razza = $('#basic-default-razza').val();
+                            var sesso = $('#basic-default-sesso').val();
+                            var peso = $('#basic-default-peso').val();
+                            var data_nascita = $('#html5-date-input').val();
+                            var colore = $('#html5-color-input').val();
+                      
+                            $.ajax({
+                              type: "POST",
+                              url: "./aggiungiAnimale.php",
+                              data: {
+                                nome: nome,
+                                tipologia: tipologia,
+                                razza: razza,
+                                sesso: sesso,
+                                peso: peso,
+                                data_nascita: data_nascita,
+                                colore: colore,
+                              },
+                              success: function(data) {
+                                // handle success response here
+                                console.log(data);
+                                $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">Hai aggiunto l\'animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
+                              },
+                              error: function(xhr, status, error) {
+                                // handle error response here
+                              }
                             });
                           });
-
-                        </script>
-
-<script type="text/javascript">/*
-const nome = document.getElementById('nome').value.trim();
-const tipologia = document.getElementById('tipologia').value.trim();
-const razza = document.getElementById('razza').value.trim();
-const sesso = document.getElementById('sesso').value.trim();
-const peso = document.getElementById('peso').value.trim();
-const data_nascita = document.getElementById('data_nascita').value.trim();
-const colore = document.getElementById('colore').value.trim();
-
-const xhr = new XMLHttpRequest();
-const url = 'insert.php';
-const params = `nome=${nome}&tipologia=${tipologia}&razza=${razza}&sesso=${sesso}&peso=${peso}&data_nascita=${data_nascita}&colore=${colore}`;
-xhr.open('POST', url, true);
-xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-xhr.onreadystatechange = function() {
-if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-console.log(this.responseText);
-window.location.href = '/gestisciAnimale.html';
-}
-};
-xhr.send(params);*/
-
-</script>
-                      </div>
+                        });
+                      </script>
+                      
                     </div>
+                  </div>
                 </div>
                 <!-- / Form -->
               </div>
             </div>
+            
             <!-- / Content -->
 
             <!-- Modal -->

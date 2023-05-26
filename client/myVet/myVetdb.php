@@ -2,7 +2,7 @@
 <?php
 
 // retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
+$uid = $_SESSION['uid'];
 //$vfk = $_COOKIE['vfk'];
 
 // connect to the database
@@ -72,6 +72,6 @@ while ($row = $result->fetch_assoc()) {
 $mysqli->close();
 
 // pass the array to the calling script
-header("Location: myVet.php");
+//header("Location: myVet.php");
 
 ?>

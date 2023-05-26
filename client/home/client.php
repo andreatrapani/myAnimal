@@ -260,7 +260,7 @@ include_once '../../login/check-login.php';
                       <div class="col-sm-7">
                         <div class="card-body">
                           <?php
-                          if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+                          if (isset($_SESSION['username']) && $_SESSION['email'] != '') {
                             // user is logged in
                             echo '<h5 class="card-title text-primary"> Ciao ' . $_SESSION['username'] . "</h5>";
                           } else {
@@ -270,8 +270,8 @@ include_once '../../login/check-login.php';
                           <p class="mb-4">
                             Benvenuto su <span class="fw-bold">myAnimal</span> , qui puoi gestire i tuoi animali domestici e entrare in contatto con il tuo veterinario.                          </p>
 
-                          <a href="gestisciAnimale/animale.php" class="btn btn-sm btn-outline-primary">Gestisci i tuoi animali</a>
-                          <a href="aggiungiAnimale.html" class="btn btn-sm btn-outline-primary">Aggiungi nuovo animale</a>
+                          <a href="../gestisciAnimale/animale.php" class="btn btn-sm btn-outline-primary">Gestisci i tuoi animali</a>
+                          <a href="../aggiungi/aggiungiAnimale.html" class="btn btn-sm btn-outline-primary">Aggiungi nuovo animale</a>
                         </div>
                       </div>
                       <div class="col-sm-5 text-center text-sm-left">

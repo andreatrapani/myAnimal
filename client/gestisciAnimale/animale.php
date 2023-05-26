@@ -1,7 +1,5 @@
 <?php
-
 include_once '../../login/check-login.php';
-
 ?>
 
 
@@ -285,7 +283,7 @@ include_once '../../login/check-login.php';
                 $animali[] = $row; // Aggiungi ogni animale all'array
               }
               $firstAnimal = $animali[0]; // Primo animale
-              echo'
+              echo '
               <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <!-- Form -->
@@ -297,12 +295,12 @@ include_once '../../login/check-login.php';
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="growthReportId">';
 
-                      foreach ($animali as $animal) {
-                        echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>
+              foreach ($animali as $animal) {
+                echo '<a class="dropdown-item animal-option" href="javascript:void(0);" data-animal-id="' . $animal['aid'] . '">' . $animal['nome'] . '</a>
                         ';
-                      }
+              }
 
-                      echo '</div>
+              echo '</div>
 
                   </div>
                   <br><br>
@@ -314,27 +312,87 @@ include_once '../../login/check-login.php';
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                             ';
-                            if ($firstAnimal['tipologia'] == 'cane') {
-                              echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
-                              ';
-                            } else {
-                              echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
-                              ';
-                            }
-      
-                            echo '
+                              if ($firstAnimal['tipologia'] == 'cane') {
+                                echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
+                                              ';
+                              } else {
+                                echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                              ';
+                              }
+
+                              echo '
                             
                               <div class="button-wrapper">
-                                <h1 id="animalName">' . $firstAnimal['nome'] .  '</h1>
-                                <label class="btn btn-primary me-2 mb-4" tabindex="0">
-                                  <a href="../modificaAnimale/modifica.html"><button type="button" class="btn btn-primary">Modifica Animale</button></a>
-                                </label>
-                                
+                                <h1 id="animalName">' . $firstAnimal['nome'] . '</h1>                                
                               </div>
                             </div>
                           </div>
+
+                          <hr class="my-0">
+                          <div class="card-body">
+                            <form id="formAccountSettings" method="POST" onsubmit="return false">
+                              <div class="row">
+                                <div class="mb-3 col-md-6">
+                                  <label for="Nome" class="form-label">Nome</label>
+                                  <input class="form-control" type="text" id="Nome" name="Nome" value="Rex" autofocus="">
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="lastName" class="form-label">Tipologia</label>
+                                  <select id="tipologia" class="select2 form-select">
+                                    <option value="cane" selected="">cane</option>
+                                    <option value="gatto">gatto</option>
+                                  </select>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="razza" class="form-label">Razza</label>
+                                  <select id="razza" class="select2 form-select">
+                                    <option value="Chihuahua" selected="">Chihuahua</option>
+                                    <option value="Husky">Husky</option>
+                                  </select>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="sesso" class="form-label">Sesso</label>
+                                  <select id="sesso" class="select2 form-select">
+                                    <option value="M" selected="">M</option>
+                                    <option value="F">F</option>
+                                  </select>                                
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label class="form-label" for="peso">Peso</label>
+                                  <div class="input-group input-group-merge">
+                                    <input type="text" id="peso" name="peso" class="form-control" placeholder="2.9">
+                                    <span class="input-group-text">kg</span>
+                                  </div>
+                                </div>
+                                <div class="mb-3 col-md-6">
+                                  <label for="address" class="form-label">Data Nascita</label>
+                                  <input class="form-control" type="date" value="2017-10-23" id="html5-date-input">
+                                </div>
+                                <div class="mb-3 col-md-12">
+                                  <label for="state" class="form-label">Colore</label>
+                                  <div>
+                                    <input class="form-control" type="color" value="#9E7C42" id="html5-color-input">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="mt-2">
+                                <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                              </div>
+                            </form>
+                          </div>
+                          
+
                         </div>
                         <!-- / Intestazione -->
+
+
+
+
+
+
+
+
+
 
                         <div class="row">
 
@@ -494,7 +552,25 @@ include_once '../../login/check-login.php';
                             </div>
                           </div>
                           <!-- / Medicinali -->
+                        </div>
 
+                        <div class="card">
+                          <h5 class="card-header">Elimina Animale</h5>
+                          <div class="card-body">
+                            <div class="mb-3 col-12 mb-0">
+                              <div class="alert alert-warning">
+                                <h6 class="alert-heading fw-bold mb-1">Sei sicuro di voler eliminare il tuo animale</h6>
+                                <p class="mb-0">Una volta eliminato non sarà più recuperabile.</p>
+                              </div>
+                            </div>
+                            <form id="formAccountDeactivation" onsubmit="return false">
+                              <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
+                                <label class="form-check-label" for="accountActivation">confermo di voler eliminare il mio animale</label>
+                              </div>
+                              <button type="submit" class="btn btn-danger deactivate-account">Elimina Animale</button>
+                            </form>
+                          </div>
                         </div>
 
                       </div>
@@ -503,9 +579,10 @@ include_once '../../login/check-login.php';
                 <!-- / Form -->
               </div>
             </div>';
-            
+
             }
             ?>
+
             <!-- / Content -->
 
             <!-- Footer -->

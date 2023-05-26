@@ -2,7 +2,7 @@
 
 // retrieve the user's UID from the cookie
 //$uid = $_COOKIE['uid'];
-$vfk = $_COOKIE['vfk'];
+$vfk = $_SESSION['vfk'];
 
 // retrieve the vet data from the database
 require_once 'myVetdb.php';?>
@@ -255,10 +255,10 @@ require_once 'myVetdb.php';?>
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                              if(isset($_COOKIE['email']) && $_COOKIE['email'] != '') {
+                              if(isset($_SESSION['email']) && $_SESSION['email'] != '') {
                                   // user is logged in
-                                  echo '<span class="fw-semibold d-block">'.$_COOKIE['email']." uid: ".$_COOKIE['uid']."</span>";
-                                  echo '<small class="text-muted">'.$_COOKIE['username']."</small>";
+                                  echo '<span class="fw-semibold d-block">'.$_SESSION['email']." uid: ".$_SESSION['uid']."</span>";
+                                  echo '<small class="text-muted">'.$_SESSION['username']."</small>";
                               } else {
                                   // user is not logged in
                               }
