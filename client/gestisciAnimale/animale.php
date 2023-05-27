@@ -308,19 +308,19 @@ include_once '../../login/check-login.php';
                       
                       <div class="col-md-12">
                         <!-- Intestazione -->
-                        <div class="card mb-4">
+                        <div class="card mb-4" id="modifica">
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                             ';
-                              if ($firstAnimal['tipologia'] == 'cane') {
-                                echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
-                                              ';
-                              } else {
-                                echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
-                                              ';
-                              }
+              if ($firstAnimal['tipologia'] == 'cane') {
+                echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
+                                                              ';
+              } else {
+                echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                                              ';
+              }
 
-                              echo '
+              echo '
                             
                               <div class="button-wrapper">
                                 <h1 id="animalName">' . $firstAnimal['nome'] . '</h1>                                
@@ -330,51 +330,70 @@ include_once '../../login/check-login.php';
 
                           <hr class="my-0">
                           <div class="card-body">
-                            <form id="formAccountSettings" method="POST" onsubmit="return false">
-                              <div class="row">
+                          <form id="formAccountSettings" method="POST" action="modificaAnimale.php">
+                          <div class="row">
                                 <div class="mb-3 col-md-6">
                                   <label for="Nome" class="form-label">Nome</label>
-                                  <input class="form-control" type="text" id="Nome" name="Nome" value="Rex" autofocus="">
+                                  <input class="form-control" type="text" id="nomeAnimale" name="nomeAnimale" value="' . $firstAnimal['nome'] . '" >
                                 </div>
                                 <div class="mb-3 col-md-6">
-                                  <label for="lastName" class="form-label">Tipologia</label>
-                                  <select id="tipologia" class="select2 form-select">
-                                    <option value="cane" selected="">cane</option>
-                                    <option value="gatto">gatto</option>
-                                  </select>
+                                  <label for="tipologia" class="form-label">Tipologia</label>
+                                  ';
+                                  if ($firstAnimal['tipologia'] == 'cane') {
+                                    echo '
+                                    <select id="tipologia" name="tipologia" class="select2 form-select">
+                                      <option value="cane" selected="">cane</option>
+                                      <option value="gatto">gatto</option>
+                                    </select>';
+                                    } else {
+                                      echo '
+                                    <select id="tipologia" name="tipologia" class="select2 form-select">
+                                      <option value="cane">cane</option>
+                                      <option value="gatto" selected="">gatto</option>
+                                    </select>';
+                                  }
+                                  echo '
+                                  
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="razza" class="form-label">Razza</label>
-                                  <select id="razza" class="select2 form-select">
-                                    <option value="Chihuahua" selected="">Chihuahua</option>
-                                    <option value="Husky">Husky</option>
-                                  </select>
+                                  <input type="text" class="form-control" id="razza" name="razza" value="' . $firstAnimal['razza'] . '">
                                 </div>
                                 <div class="mb-3 col-md-6">
-                                  <label for="sesso" class="form-label">Sesso</label>
-                                  <select id="sesso" class="select2 form-select">
-                                    <option value="M" selected="">M</option>
-                                    <option value="F">F</option>
-                                  </select>                                
+                                  <label for="sesso" class="form-label">Sesso</label>';
+                                  if ($firstAnimal['sesso'] == 'M') {
+                                    echo '<select id="sesso" name="sesso" class="select2 form-select">
+                                                        <option value="M" selected="">M</option>
+                                                        <option value="F">F</option>
+                                                      </select>  ';
+                                  } else {
+                                    echo '<select id="sesso" name="sesso" class="select2 form-select">
+                                                        <option value="M" >M</option>
+                                                        <option value="F" selected="">F</option>
+                                                      </select>  ';
+                                  }
+                                  echo '
+                                                                
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label class="form-label" for="peso">Peso</label>
                                   <div class="input-group input-group-merge">
-                                    <input type="text" id="peso" name="peso" class="form-control" placeholder="2.9">
+                                    <input type="text" id="peso" name="peso" class="form-control" value="' . $firstAnimal['peso'] . '">
                                     <span class="input-group-text">kg</span>
                                   </div>
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="address" class="form-label">Data Nascita</label>
-                                  <input class="form-control" type="date" value="2017-10-23" id="html5-date-input">
+                                  <input class="form-control" type="date" value="' . $firstAnimal['data_nascita'] . '" id="html5-date-input" name="html5-date-input">
                                 </div>
                                 <div class="mb-3 col-md-12">
                                   <label for="state" class="form-label">Colore</label>
                                   <div>
-                                    <input class="form-control" type="color" value="#9E7C42" id="html5-color-input">
+                                    <input class="form-control" type="color" value="' . $firstAnimal['colore'] . '" id="html5-color-input" name="html5-color-input">
                                   </div>
                                 </div>
                               </div>
+                              <input class="form-control" id="idAnimal" name="idAnimal" value="' . $firstAnimal['aid'] . '" style="display: none;">
                               <div class="mt-2">
                                 <button type="submit" class="btn btn-primary me-2">Save changes</button>
                               </div>
@@ -469,7 +488,7 @@ include_once '../../login/check-login.php';
                                   </li>
                                 </ul>
                                 <div style="margin: 0 auto;">
-                                  <a href="../aggiungiVax.html" type="button" class="btn rounded-pill btn-primary">
+                                  <a href="../aggiungi/aggiungiVax.html" type="button" class="btn rounded-pill btn-primary">
                                     Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
                                   </a>
                                 </div>
@@ -663,11 +682,13 @@ include_once '../../login/check-login.php';
             type: 'POST',
             data: { animalId: animalId },
             success: function (response) {
-              $('.animal-details').html(response);
+              $('animal-details').html(response);
 
               var animalName = animalButton.text();
               $('#growthReportId').text(animalName);
               $('#animalName').text(animalName);
+
+
 
 
               // Modifica l'immagine in base alla tipologia dell'animale
@@ -684,6 +705,31 @@ include_once '../../login/check-login.php';
         });
       });
     </script>
+
+<script>
+  $(document).ready(function () {
+    $('.animal-option').click(function () {
+      var animalId = $(this).data('animal-id');
+      var animalButton = $(this);
+
+      $.ajax({
+        url: 'animal_ajax.php',
+        type: 'POST',
+        data: { animalId: animalId },
+        success: function (response) {
+          $('animal-details').html(response);
+
+          var animalName = animalButton.text();
+          $('#growthReportId').text(animalName);
+          $('#modifica').html(response);
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+        }
+      });
+    });
+  });
+</script>
     
   </body>
 </html>
