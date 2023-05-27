@@ -1,6 +1,8 @@
 <?php
+include_once '../../login/check-login.php';
+
 $vid = filter_var(trim($_POST['vid']), FILTER_SANITIZE_STRING);
-$uid = $_COOKIE['uid'];
+$uid = $_SESSION['uid'];
 
 $host = 'localhost'; // your database host name
 $user = 'root'; // your database username

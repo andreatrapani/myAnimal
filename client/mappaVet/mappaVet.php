@@ -180,7 +180,7 @@ require_once 'vetdb.php';
             </li>
 
             <li class="menu-item">
-              <a href="animale.php" class="menu-link">
+              <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
@@ -196,7 +196,7 @@ require_once 'vetdb.php';
             <li class="menu-header small text-uppercase"><span class="menu-header-text">VETERINARIO</span></li>
             <!-- MyVet -->
             <li class="menu-item">
-                <a href="../myVet/myVet.html" class="menu-link">
+                <a href="../myVet/myVet.php" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-band-aid"></i>
                   <div data-i18n="my-vet">Il Mio Veterinario</div>
                 </a>

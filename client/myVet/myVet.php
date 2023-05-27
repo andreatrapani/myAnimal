@@ -1,16 +1,20 @@
 <?php
+include_once '../../login/check-login.php';
+
 
 // retrieve the user's UID from the cookie
-$uid = $_COOKIE['uid'];
-$vfk = $_COOKIE['vfk'];
+$mysql = new mysqli('localhost', 'root', '', 'reg-bd');
+
+$risultato = $mysql->query("SELECT vfk  FROM user WHERE uid = " . $_SESSION['uid'] . "");
+
+$uid = $_SESSION['uid'];
+$vfk = $risultato;
 
 
 // retrieve the vet data from the database
 require_once 'myVetdb.php';
 
-$nome = $_COOKIE['nome'];
-$cognome = $_COOKIE['cognome'];
-$user = $_COOKIE['username'];
+$user = $_SESSION['username'];
 
 ?>
 <!DOCTYPE html>
@@ -94,7 +98,7 @@ $user = $_COOKIE['username'];
     <script>
       function initMap() {
         // Imposta la posizione della mappa
-        var myLatLng = {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>};
+        var myLatLng = { lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?> };
 
         // Crea la mappa
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -115,29 +119,29 @@ $user = $_COOKIE['username'];
                 content: '<div><h5><?php echo $vet['Nome'] . " " . $vet['Cognome']; ?></h5><p>Email: <?php echo $vet['Email']; ?></p><p>Telefono: <?php echo $vet['Telefono']; ?></p><p>Indirizzo: <?php echo $vet['Indirizzo']; ?></p></div>'
               }
             );
-          <?php endif; ?>
+                      <?php endif; ?>
         <?php endforeach; ?>
 
-        markers.forEach(function(marker) {
-          var gMarker = new google.maps.Marker({
-            position: marker,
-            map: map,
-            title: marker.title
-          });
+          markers.forEach(function (marker) {
+            var gMarker = new google.maps.Marker({
+              position: marker,
+              map: map,
+              title: marker.title
+            });
 
-          // Create an info window for each marker
-          var infoWindow = new google.maps.InfoWindow({
-            content: marker.content
-          });
+            // Create an info window for each marker
+            var infoWindow = new google.maps.InfoWindow({
+              content: marker.content
+            });
 
-          gMarker.addListener('click', function() {
-            infoWindow.open(map, gMarker);
-          });
+            gMarker.addListener('click', function () {
+              infoWindow.open(map, gMarker);
+            });
 
-          infoWindow.addListener('closeclick', function() {
-            infoWindow.close();
+            infoWindow.addListener('closeclick', function () {
+              infoWindow.close();
+            });
           });
-        });
       }
     </script>
   </head>
@@ -150,9 +154,9 @@ $user = $_COOKIE['username'];
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
-            <a href="client.html" class="app-brand-link">
+            <a href="../home/client.php" class="app-brand-link">
               <span class="app-brand-logo demo">
-                <img style="width: 50px" src="../assets/img/myAnimalLogo.png">
+                <img style="width: 50px" src="../../assets/img/myAnimalLogo.png">
               </span>
               <span class="app-brand-text demo menu-text fw-bolder ms-2">MyAnimal</span>
             </a>
@@ -167,7 +171,7 @@ $user = $_COOKIE['username'];
           <ul class="menu-inner py-1">
             <!-- Home -->
             <li class="menu-item">
-              <a href="client.html" class="menu-link">
+              <a href="../home/client.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div data-i18n="home">Home</div>
               </a>
@@ -179,25 +183,13 @@ $user = $_COOKIE['username'];
             </li>
 
             <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
+              <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Rex">Rex</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="gestisciAnimale/animale.html" class="menu-link">
-                    <div data-i18n="Alex">Alex</div>
-                  </a>
-                </li>
-              </ul>
             </li>
             <li class="menu-item">
-              <a href="../aggiungiAnimale.html" class="menu-link">
+              <a href="../aggiungi/aggiungiAnimale.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-plus"></i>
                 <div data-i18n="add-animal">Aggiungi Animale</div>
               </a>
@@ -207,7 +199,7 @@ $user = $_COOKIE['username'];
             <li class="menu-header small text-uppercase"><span class="menu-header-text">VETERINARIO</span></li>
             <!-- MyVet -->
             <li class="menu-item active">
-                <a href="myVet/myVet.html" class="menu-link">
+                <a href="../myVet/myVet.php" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-band-aid"></i>
                   <div data-i18n="my-vet">Il Mio Veterinario</div>
                 </a>
@@ -248,7 +240,7 @@ $user = $_COOKIE['username'];
                 <li class="nav-item navbar-dropdown dropdown-user dropdown">
                   <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <div class="avatar avatar-online">
-                      <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                     </div>
                   </a>
                   <ul class="dropdown-menu dropdown-menu-end">
@@ -257,18 +249,18 @@ $user = $_COOKIE['username'];
                         <div class="d-flex">
                           <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                              <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                              <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                              if(isset($_SESSION['username']) && $_SESSION['email'] != '') {
-                                  // user is logged in
-                                  echo '<span class="fw-semibold d-block">'.$_SESSION['email']." uid: ".$_SESSION['uid']."</span>";
-                                  echo '<small class="text-muted">'.$_SESSION['username']."</small>";
-                              } else {
-                                  // user is not logged in
-                              }
+                            if (isset($_SESSION['username']) && $_SESSION['email'] != '') {
+                              // user is logged in
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['email'] . " uid: " . $_SESSION['uid'] . "</span>";
+                              echo '<small class="text-muted">' . $_SESSION['username'] . "</small>";
+                            } else {
+                              // user is not logged in
+                            }
                             ?>
                             <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
                             <small class="text-muted">User</small>-->
@@ -320,128 +312,157 @@ $user = $_COOKIE['username'];
                 <?php
                 // check if any vets were found
                 if (count($vets) == 0):
-                ?>
-                  <div id="vet" style="text-align: center; border: 2px solid #696cff;">Nessun veterinario trovato.</div>
+                  ?>
+                              <div id="vet" style="text-align: center; border: 2px solid #696cff;">Nessun veterinario trovato.</div>
                 <?php else: ?>
-                  <!-- Your existing HTML code here -->
-                  <!-- Iterate over the vets array and display the data -->
+                              <!-- Your existing HTML code here -->
+                              <!-- Iterate over the vets array and display the data -->
                   
-                    <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-                      <div class="card">
-                        <div class="row row-bordered g-0">
-                          <div class="col-md-12">
-                            <!-- Display the vet data here -->
-                            <div class="card">
-                              <h5 class="card-header m-0 me-2 pb-3">VETERINARIO</h5>
-                              <div class="table-responsive text-nowrap">
-                                <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>#</th>
-                                      <th>Valore</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody class="table-border-bottom-0">
-                                    <tr>
-                                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Nome</strong></td>
-                                      <td><?php echo $vet['Nome']; ?></td>
-                                    </tr>
-                                    <tr>
-                                      <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Cognome</strong></td>
-                                      <td><?php echo $vet['Cognome']; ?></td>
-                                    </tr>
-                                    <tr>
-                                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Data di nascita</strong></td>
-                                      <td><?php echo $vet['DataN']; ?></td>
-                                    </tr>
-                                    <tr>
-                                      <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Email</strong></td>
-                                      <td><?php echo $vet['Email']; ?></td>
-                                    </tr>
-                                    <tr>
-                                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Telefono</strong></td>
-                                      <td><?php echo $vet['Telefono']; ?></td>
-                                    </tr>
-                                    <tr>
-                                      <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Indirizzo</strong></td>
-                                      <td><?php echo $vet['Indirizzo']; ?></td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+                                <div class="col-12 col-lg-12 mb-4">
+                                  <div class="card">
+                                    <div class="row row-bordered g-0">
+                                      <div class="col-md-12">
+                                        <!-- Display the vet data here -->
+                                        <div class="card">
+                                          <h5 class="card-header m-0 me-2 pb-3">VETERINARIO</h5>
+                                          <div class="table-responsive text-nowrap">
+                                            <table class="table">
+                                              <thead>
+                                                <tr>
+                                                  <th>#</th>
+                                                  <th>Valore</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody class="table-border-bottom-0">
+                                                <tr>
+                                                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Nome</strong></td>
+                                                  <td><?php echo $vet['Nome']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Cognome</strong></td>
+                                                  <td><?php echo $vet['Cognome']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Data di nascita</strong></td>
+                                                  <td><?php echo $vet['DataN']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Email</strong></td>
+                                                  <td><?php echo $vet['Email']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Telefono</strong></td>
+                                                  <td><?php echo $vet['Telefono']; ?></td>
+                                                </tr>
+                                                <tr>
+                                                  <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Indirizzo</strong></td>
+                                                  <td><?php echo $vet['Indirizzo']; ?></td>
+                                                </tr>
+                                              </tbody>
+                                            </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                  
+
+                                <div class="col-lg-12">
+                                  <div class="card">
+                                    <div class="d-flex align-items-end row">
+                                      <div style="padding-top:1%; padding-bottom:1%; padding-left:2%; padding-right: 2%; border-radius: 30px;" class="col-12 mb-0">
+                                          <div style="border-radius: 4px;" id="map"></div>
+                                      </div>
+                                        <script>
+                                          window.onload = initMap;
+                                        </script>        
+                                    </div>
+                                  </div>   
+                                </div>
+                        <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                    <div class="col-xl-12 col-lg-5">
+                    
+                    <?php
+                    // check if any vets were found
+                    if (count($vetall) == 0):
+                      ?>
+                                  <div class="container-xxl flex-grow-1 container-p-y">
+                                <div class="row">
+                                  <!-- Form -->
+                                  <div class="container-xxl flex-grow-1 container-p-y">
+                                      <div class="row">
+                                        <div class="col-md-12">
+                                          <!-- Intestazione -->
+                                          <div class="card mb-4">
+                                            <div class="card-body">
+                                              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                        
+                                                <div class="button-wrapper">
+                                                  <h1>NESSUN VETERINARIO PRESENTE</h1>
+                                          
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <!-- / Form -->
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  
-                <?php endif; ?>
-                </div>
-            </div>
-            <div class="card-body">
-            <div class="col-xl-12 col-lg-5">
-            <div id="map"></div></br>
-            <?php
-              // check if any vets were found
-              if (count($vetall) == 0):
-            ?>
-              <p>Nessun veterinario trovato.</p>
-            <?php else: ?>
-            <!-- Your existing HTML code here -->
-            <!-- Iterate over the vets array and display the data -->
-            <?php foreach ($vetall as $vet): ?>
-              <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
-                <div class="card">
-                  <div class="row row-bordered g-0">
-                    <?php if ($vet['vid'] != $vfk): ?>
-                    <div class="col-md-12">
-                      <!-- Display the vet data here -->
-                      <div class="card">
-                        <h5 class="card-header m-0 me-2 pb-3">VETERINARIO    <button class="btn btn-primary btn-sm" onclick="postData('<?php echo $vet['vid']; ?>')">Select</button></h5>
-                        
-                        <div class="table-responsive text-nowrap">
-                          <table class="table">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th>Valore</th>
-                              </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                              <tr>
-                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Nome</strong></td>
-                                <td><?php echo $vet['Nome']; ?></td>
-                              </tr>
-                              <tr>
-                                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Cognome</strong></td>
-                                <td><?php echo $vet['Cognome']; ?></td>
-                              </tr>
-                              <tr>
-                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Data di nascita</strong></td>
-                                <td><?php echo $vet['DataN']; ?></td>
-                              </tr>
-                              <tr>
-                                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Email</strong></td>
-                                <td><?php echo $vet['Email']; ?></td>
-                              </tr>
-                              <tr>
-                                <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>Telefono</strong></td>
-                                <td><?php echo $vet['Telefono']; ?></td>
-                              </tr>
-                              <tr>
-                                <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong>Indirizzo</strong></td>
-                                <td><?php echo $vet['Indirizzo']; ?></td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  <?php endif; ?>
-                  </div>
-                </div>
-              </div>
-            <?php endforeach; ?>
+                    <?php else: ?>
+                                <!-- Your existing HTML code here -->
+                                <!-- Iterate over the vets array and display the data -->
+                                <div class="col-12 col-lg-12 order-2 order-md-3 order-lg-2 mb-4">
+                                              <div class="card">
+                                    <h5 class="card-header">Cambia Veterinario</h5>
+                                    <div class="table-responsive text-nowrap">
+                                      <table class="table">
+                                        <thead>
+                                          <tr>
+                                            <th>nome</th>
+                                            <th>cognome</th>
+                                            <th>indiizzo</th>
+                                            <th>email</th>
+                                            <th>telefono</th>
+                                            <th>cambia</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody class="table-border-bottom-0">
+                                <?php foreach ($vetall as $vet): ?>
+                                              
+                                      
+
+                                        <?php if ($vet['vid'] != $vfk): ?>
+
+                                            <tr>
+                                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $vet['Nome']; ?></strong></td>
+                                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><?php echo $vet['Cognome']; ?></strong></td>
+                                              <td><?php echo $vet['Indirizzo']; ?></td>
+                                              <td><?php echo $vet['Email']; ?></td>
+                                              <td><?php echo $vet['Telefono']; ?></td>
+                                              <td><button class="btn btn-primary btn-sm" onclick="postData('<?php echo $vet['vid']; ?>')">Select</button></td>
+                                            </tr>
+                                          <?php endif; ?>
+
+
+
+
+
+
+
+                                      
+                                        
+                        <?php endforeach; ?>
+                        </tbody>
+                                      </table>
+                                    </div>
+                                  </div>
+                                      </div>
           <?php endif; ?>
 
           <script>
@@ -450,11 +471,11 @@ $user = $_COOKIE['username'];
                 type: "POST",
                 url: "selectVet.php",
                 data: { vid: vid },
-                success: function(response) {
+                success: function (response) {
                   console.log(response);
                   location.reload();
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                   console.error(error);
                 }
               });
@@ -462,7 +483,8 @@ $user = $_COOKIE['username'];
           </script>
 
 
-          </div></div>
+          </div>
+        </div>
           <script>
             window.onload = initMap;
           </script>

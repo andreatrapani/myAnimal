@@ -1,5 +1,7 @@
 
 <?php
+include_once '../../login/check-login.php';
+
 
 // retrieve the user's UID from the cookie
 $uid = $_SESSION['uid'];
@@ -67,8 +69,7 @@ while ($row = $result->fetch_assoc()) {
         'Telefono' => $row['telefono'],
         'Indirizzo' => $row['indirizzo'],
         'Lat' => $row['lat'],
-        'Lon' => $row['lon'],
-        'ufk' => $row['ufk']
+        'Lon' => $row['lon']
     );
     array_push($vets, $vet);
 }
@@ -100,8 +101,7 @@ while ($row = $result->fetch_assoc()) {
         'Telefono' => $row['telefono'],
         'Indirizzo' => $row['indirizzo'],
         'Lat' => $row['lat'],
-        'Lon' => $row['lon'],
-        'ufk' => $row['ufk']
+        'Lon' => $row['lon']
     );
     array_push($vetall, $vetl);
 }

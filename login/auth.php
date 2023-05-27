@@ -41,6 +41,7 @@ if ($existingUser) {
   $_SESSION['username'] = $username;
   $_SESSION['email'] = $email;
   $_SESSION['nome'] = $nome;
+  $_SESSION['cognome'] = $cognome;
 
   echo "You are registered!";
 }
