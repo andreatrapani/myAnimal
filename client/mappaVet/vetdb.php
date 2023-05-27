@@ -45,7 +45,7 @@ while ($row = $result->fetch_assoc()) {
         'Indirizzo' => $row['indirizzo'],
         'Lat' => $row['lat'],
         'Lon' => $row['lon'],
-        'ufk' => $row['ufk']
+        'ufk' => $_SESSION['uid']
     );
     array_push($vets, $vet);
 }

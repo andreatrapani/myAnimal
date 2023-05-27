@@ -9,14 +9,8 @@ $uid = $_SESSION['uid'];
 
 // retrieve the animal data from the database
 require_once 'vetdb.php';
-$a=0;
-if ($a==0): $a=1;?>
-        <p>Nessun animale trovato.</p>
-    <?php else: 
-        $vets = json_decode(urldecode($_GET['vets']), true);
 
-        ?>
-    <?php endif; ?>
+
 
 ?>
 <!DOCTYPE html>
@@ -100,52 +94,52 @@ if ($a==0): $a=1;?>
   </style>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUR0QMeyV2rCHlvNBTKkP6uAUQxoGPecA"></script>
   <script>
-  function initMap() {
-    // Imposta la posizione della mappa
-    var myLatLng = {lat: 41.8, lng: 15.7};
+    function initMap() {
+      // Imposta la posizione della mappa
+      var myLatLng = { lat: 41.8, lng: 15.7 };
 
-    // Crea la mappa
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 5,
-      center: myLatLng
-    });
+      // Crea la mappa
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 5,
+        center: myLatLng
+      });
 
-    // Aggiunge un marker per ogni punto
-    var markers = [
-      /*{lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
-      {lat: 41.9019, lng: 12.4928, title: 'Punto 2'}*/
-    ];
+      // Aggiunge un marker per ogni punto
+      var markers = [
+        /*{lat: 41.9031, lng: 12.4965, title: 'Punto 1'},
+        {lat: 41.9019, lng: 12.4928, title: 'Punto 2'}*/
+      ];
 
-    <?php foreach ($vets as $vet): ?>
-      markers.push(
-        {lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>, title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>', content: '<div><h5><?php echo $vet['Nome'] . " " . $vet['Cognome']; ?></h5><p>Email: <?php echo $vet['Email']; ?></p><p>Telefono: <?php echo $vet['Telefono']; ?></p></p><p>Indirizzo: <?php echo $vet['Indirizzo']; ?></p></div>'}
-      );
+      <?php foreach ($vets as $vet): ?>
+        markers.push(
+          { lat: <?php echo $vet['Lat']; ?>, lng: <?php echo $vet['Lon']; ?>, title: '<?php echo $vet['Nome'] . " " . $vet['Cognome']; ?>', content: '<div><h5><?php echo $vet['Nome'] . " " . $vet['Cognome']; ?></h5><p>Email: <?php echo $vet['Email']; ?></p><p>Telefono: <?php echo $vet['Telefono']; ?></p></p><p>Indirizzo: <?php echo $vet['Indirizzo']; ?></p></div>' }
+        );
     <?php endforeach; ?>
 
-    markers.forEach(function(marker) {
-      var gMarker = new google.maps.Marker({
-        position: marker,
-        map: map,
-        title: marker.title
-      });
+        markers.forEach(function (marker) {
+          var gMarker = new google.maps.Marker({
+            position: marker,
+            map: map,
+            title: marker.title
+          });
 
-      // Create an info window for each marker
-      var infoWindow = new google.maps.InfoWindow({
-        content: marker.content
-      });
+          // Create an info window for each marker
+          var infoWindow = new google.maps.InfoWindow({
+            content: marker.content
+          });
 
-      // Open the info window when marker is clicked
-      gMarker.addListener('click', function() {
-        infoWindow.open(map, gMarker);
-      });
+          // Open the info window when marker is clicked
+          gMarker.addListener('click', function () {
+            infoWindow.open(map, gMarker);
+          });
 
-      // Close the info window when "X" is clicked
-      infoWindow.addListener('closeclick', function() {
-        infoWindow.close();
-      });
-    });
-  }
-</script>
+          // Close the info window when "X" is clicked
+          infoWindow.addListener('closeclick', function () {
+            infoWindow.close();
+          });
+        });
+    }
+  </script>
 
   </head>
 
@@ -164,7 +158,7 @@ if ($a==0): $a=1;?>
               <span class="app-brand-text demo menu-text fw-bolder ms-2">MyAnimal</span>
             </a>
 
-            <a href="../home/client.php" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
               <i class="bx bx-chevron-left bx-sm align-middle"></i>
             </a>
           </div>
@@ -186,13 +180,13 @@ if ($a==0): $a=1;?>
             </li>
 
             <li class="menu-item">
-              <a href="../gestisciAnimale/animale.php" class="menu-link">
+              <a href="animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
             </li>
             <li class="menu-item">
-              <a href="../aggiungiAnimale.html" class="menu-link">
+              <a href="../aggiungi/aggiungiAnimale.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-plus"></i>
                 <div data-i18n="add-animal">Aggiungi Animale</div>
               </a>
@@ -315,21 +309,34 @@ if ($a==0): $a=1;?>
 
           <!-- / Navbar -->
 
+
+
+
           <div class="content-wrapper">
-              <!-- Content -->
+            <!-- Content -->
+
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="d-flex align-items-end row">
+                      <div style="padding-top:1%; padding-bottom:1%; padding-left:2%; padding-right: 2%; border-radius: 30px;" class="col-12 mb-0">
+                          <div style="border-radius: 4px;" id="map"></div>
+                      </div>
+                        <script>
+                          window.onload = initMap;
+                        </script>        
+                    </div>
+                  </div>   
+                </div>
+              </div>
             </div>
-
-            <div class="card-body">
-            <div class="col-xl-12 col-lg-5">
-            <div id="map"></div>
-          </div></div>
-          <script>
-            window.onload = initMap;
-          </script>
-            
-            <!-- / Content -->
-
-            <!-- Footer -->
+                
+                <!-- Descrizione Animale -->
+                
+  
+                    
+               <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
               <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
                 <div class="mb-2 mb-md-0">
@@ -361,8 +368,24 @@ if ($a==0): $a=1;?>
             </footer>
             <!-- / Footer -->
 
+
+                
+
+                
+                <!-- vaccini e medicine -->
+
+              </div>
+            </div>
+            
+            <!-- / Content -->
+
+            
+            
+            
+
             <div class="content-backdrop fade"></div>
           </div>
+
           <!-- Content wrapper -->
         </div>
         <!-- / Layout page -->

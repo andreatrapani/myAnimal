@@ -40,6 +40,7 @@ if ($existingUser) {
   $_SESSION['loggedin'] = true;
   $_SESSION['username'] = $username;
   $_SESSION['email'] = $email;
+  $_SESSION['nome'] = $nome;
 
   echo "You are registered!";
 }
