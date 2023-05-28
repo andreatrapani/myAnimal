@@ -119,7 +119,7 @@ include_once '../../login/check-login.php';
               <span class="menu-header-text">Animali</span>
             </li>
 
-            <li class="menu-item">
+            <li class="menu-item active">
               <a href="../gestisciAnimale/animale.php" class="menu-link">
                 <i class="menu-icon tf-icons bx bxl-baidu"></i>
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
@@ -260,7 +260,7 @@ include_once '../../login/check-login.php';
                 <div class="col-xl">
                     <div class="card mb-4">
                       <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Aggiungi animale</h5>
+                        <h5 class="mb-0">Aggiungi Vaccino</h5>
                         <?php
                         $aid = $_GET['aid'];
                         ?>

@@ -312,15 +312,15 @@ include_once '../../login/check-login.php';
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                             ';
-              if ($firstAnimal['tipologia'] == 'cane') {
-                echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
-                                                              ';
-              } else {
-                echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
-                                                              ';
-              }
+                            if ($firstAnimal['tipologia'] == 'cane') {
+                              echo '<img class="animal-image" src="../../assets/img/animals/cane.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar" data-animal-id="' . $firstAnimal['aid'] . '">
+                                                                            ';
+                            } else {
+                              echo '<img class="animal-image" src="../../assets/img/animals/gatto.png" alt="user-avatar" class="d-block rounded" height="100" width="100" id="uploadedAvatar">
+                                                                            ';
+                            }
 
-              echo '
+                            echo '
                             
                               <div class="button-wrapper">
                                 <h1 id="animalName">' . $firstAnimal['nome'] . '</h1>                                
@@ -339,20 +339,20 @@ include_once '../../login/check-login.php';
                                 <div class="mb-3 col-md-6">
                                   <label for="tipologia" class="form-label">Tipologia</label>
                                   ';
-              if ($firstAnimal['tipologia'] == 'cane') {
-                echo '
+                                  if ($firstAnimal['tipologia'] == 'cane') {
+                                    echo '
                                     <select id="tipologia" name="tipologia" class="select2 form-select">
                                       <option value="cane" selected="">cane</option>
                                       <option value="gatto">gatto</option>
                                     </select>';
-              } else {
-                echo '
+                                    } else {
+                                      echo '
                                     <select id="tipologia" name="tipologia" class="select2 form-select">
                                       <option value="cane">cane</option>
                                       <option value="gatto" selected="">gatto</option>
                                     </select>';
-              }
-              echo '
+                                    }
+                                    echo '
                                   
                                 </div>
                                 <div class="mb-3 col-md-6">
@@ -361,18 +361,18 @@ include_once '../../login/check-login.php';
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="sesso" class="form-label">Sesso</label>';
-              if ($firstAnimal['sesso'] == 'M') {
-                echo '<select id="sesso" name="sesso" class="select2 form-select">
-                                                        <option value="M" selected="">M</option>
-                                                        <option value="F">F</option>
-                                                      </select>  ';
-              } else {
-                echo '<select id="sesso" name="sesso" class="select2 form-select">
-                                                        <option value="M" >M</option>
-                                                        <option value="F" selected="">F</option>
-                                                      </select>  ';
-              }
-              echo '
+                                    if ($firstAnimal['sesso'] == 'M') {
+                                      echo '<select id="sesso" name="sesso" class="select2 form-select">
+                                        <option value="M" selected="">M</option>
+                                        <option value="F">F</option>
+                                      </select>  ';
+                                    } else {
+                                      echo '<select id="sesso" name="sesso" class="select2 form-select">
+                                        <option value="M" >M</option>
+                                        <option value="F" selected="">F</option>
+                                      </select>  ';
+                                    }
+                                    echo '
                                                                 
                                 </div>
                                 <div class="mb-3 col-md-6">
@@ -404,6 +404,7 @@ include_once '../../login/check-login.php';
                         </div>
                         <!-- / Intestazione -->
 
+                        <div class="row">
 
                         <!-- Vaccini -->
                           <div class="col-md-6 col-lg-6 order-0 mb-4" >
@@ -436,7 +437,7 @@ include_once '../../login/check-login.php';
                                               $nome = $row['nome'];
                                           }
 
-                                          if (strtotime($vaccino['data']) < strtotime(date('Y-m-d')) && strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months') > strtotime(date('Y-m-d'))) {
+                                          if (strtotime($vaccino['data']) <= strtotime(date('Y-m-d')) && strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months') > strtotime(date('Y-m-d'))) {
                                             echo '<li class="d-flex mb-4 pb-1">
                                             <div class="avatar flex-shrink-0 me-3">
                                               <div class="d-flex">
@@ -453,7 +454,7 @@ include_once '../../login/check-login.php';
                                               <div class="user-progress d-flex align-items-center gap-1">
                                               <div class="me-2">
                                                 <small class="text-muted d-block mb-1">data scadenza</small>
-                                                <h6 class="mb-0 text-success">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                                <h6 class="mb-0 text-success">'.date('d-m-Y', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
                                               </div>
                                               </div>
                                             </div>
@@ -476,7 +477,7 @@ include_once '../../login/check-login.php';
                                             <div class="user-progress d-flex align-items-center gap-1">
                                             <div class="me-2">
                                                 <small class="text-muted d-block mb-1">vaccinazione il</small>
-                                                <h6 class="mb-0 text-warning">'.date('Y-m-d', strtotime($vaccino['data'])).'</h6>
+                                                <h6 class="mb-0 text-warning">'.date('d-m-Y', strtotime($vaccino['data'])).'</h6>
                                               </div>
                                               
                                             </div>
@@ -496,13 +497,13 @@ include_once '../../login/check-login.php';
                                             </div>
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                               <div class="me-2">
-                                                <small class="text-muted d-block mb-1">scaduti</small>
+                                                <small class="text-muted d-block mb-1">scaduto</small>
                                                 <h6 class="mb-0">'.$nome.'</h6>
                                               </div>
                                               <div class="user-progress d-flex align-items-center gap-1">
                                               <div class="me-2">
                                                 <small class="text-muted d-block mb-1">data scadenza</small>
-                                                <h6 class="mb-0 text-danger">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                                <h6 class="mb-0 text-danger">'.date('d-m-Y', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
                                               </div>
                                                 
                                               </div>
@@ -536,7 +537,132 @@ include_once '../../login/check-login.php';
                           <!-- / Vaccini -->
 
 
-                        <div class="row">
+
+                          <!-- Medicinali -->
+                          <div class="col-md-6 col-lg-6 order-1 mb-4">
+                            <div class="card h-100">
+                              <div class="card-header d-flex align-items-center justify-content-between">
+                                <h5 class="card-title m-0 me-2">Medicinali</h5>
+                              </div>
+                              <div class="card-body" id="medicinaliContainer">
+                                <ul class="p-0 m-0">';
+                                $result = $mysql->query("SELECT * FROM medicinali_animali WHERE fkidA = " . $firstAnimal['aid']);
+
+                                $medicinali = array(); // Array per memorizzare i vaccini
+                                while ($row = $result->fetch_assoc()) {
+                                  $medicinali[] = $row; // Aggiungi ogni vaccino all'array
+                                }
+                                
+                                if ($result->num_rows == 0) {
+                                  echo '<p>NESSUN MEDICINALE INSERITO</p>
+                                    <div style="margin: 0 auto;">
+                                      <a href="../aggiungi/aggiungiMed.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
+                                        Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                                      </a>
+                                    </div>';
+                                }else{
+                                  foreach ($medicinali as $medicina) {
+                                    $ris = $mysql->query("SELECT nome FROM medicinali WHERE idM=".$medicina['fkidM']."");
+                                      $nome = "";
+                                      if ($ris && $ris->num_rows > 0) {
+                                          $row = $ris->fetch_assoc();
+                                          $nome = $row['nome'];
+                                      }
+                                  
+                                      if (strtotime($medicina['data_inizio']) <= strtotime(date('Y-m-d')) && strtotime($medicina['data_inizio'] . ' + ' . $medicina['durata'] . ' months') > strtotime(date('Y-m-d'))) {
+                                        echo '<li class="d-flex mb-4 pb-1">
+                                        <div class="avatar flex-shrink-0 me-3">
+                                          <div class="d-flex">
+                                            <div class="me-2">
+                                              <span class="badge bg-label-success p-25"><i class="bx bxs-capsule text-success"></i></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                          <div class="me-2">
+                                            <small class="text-muted d-block mb-1">effettuabile</small>
+                                            <h6 class="mb-0">'.$nome.'</h6>
+                                          </div>
+                                          <div class="user-progress d-flex align-items-center gap-1">
+                                          <div class="me-2">
+                                            <small class="text-muted d-block mb-1">orario</small>
+                                            <h6 class="mb-0 text-success">'.$medicina['ora'].'</h6>
+                                          </div>
+                                          <div class="me-2">
+                                            <small class="text-muted d-block mb-1">fino al</small>
+                                            <h6 class="mb-0 text-success">'.date('d-m-Y', strtotime($medicina['data_inizio'] . ' + ' . $medicina['durata'] . ' day')).'</h6>
+                                          </div>
+                                          </div>
+                                        </div>
+                                      </li>';
+                                    }else if(strtotime($medicina['data_inizio']) > strtotime(date('Y-m-d'))){
+                                      echo'
+                                      <li class="d-flex mb-4 pb-1">
+                                        <div class="avatar flex-shrink-0 me-3">
+                                          <div class="d-flex">
+                                            <div class="me-2">
+                                              <span class="badge bg-label-warning p-25"><i class="bx bxs-capsule text-warning"></i></span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                          <div class="me-2">
+                                            <small class="text-muted d-block mb-1">da effettuare</small>
+                                            <h6 class="mb-0">'.$nome.'</h6>
+                                          </div>
+                                          <div class="me-2">
+                                            <small class="text-muted d-block mb-1">dal</small>
+                                            <h6 class="mb-0 text-warning">'.date('d-m-Y', strtotime($medicina['data_inizio'])).'</h6>
+                                          </div>
+                                        </div>
+                                      </li>';
+                                      
+                                    }else{
+                                      echo'
+                                      
+                                      <li class="d-flex mb-4 pb-1">
+                                      <div class="avatar flex-shrink-0 me-3">
+                                        <div class="d-flex">
+                                          <div class="me-2">
+                                            <span class="badge bg-label-danger p-25"><i class="bx bxs-capsule text-danger"></i></span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                        <div class="me-2">
+                                          <small class="text-muted d-block mb-1">scaduta</small>
+                                          <h6 class="mb-0">'.$nome.'</h6>
+                                        </div>
+                                        <div class="user-progress d-flex align-items-center gap-1">
+                                        <div class="me-2">
+                                        <small class="text-muted d-block mb-1">scaduta il</small>
+                                        <h6 class="mb-0 text-danger">'.date('d-m-Y', strtotime($medicina['data_inizio'] . ' + ' . $medicina['durata'] . ' day')).'</h6>
+                                      </div>
+                                        </div>
+                                      </div>
+                                    </li>
+                                      ';
+
+                                    }
+                              }
+
+                              echo'</ul>
+                              <div style="margin: 0 auto;">
+                              <a href="../aggiungi/aggiungiVax.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
+                                Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                              </a>
+                            </div>
+                              <br>';
+
+                            }
+
+                            
+                                echo'
+                                
+                              </div>
+                            </div>
+                          </div>
+                          <!-- / Medicinali -->
 
                           
                         </div>
@@ -748,6 +874,29 @@ include_once '../../login/check-login.php';
         data: { animalId: animalId },
         success: function (response) {
           $('#vacciniContainer').html(response);
+
+          var animalName = animalButton.text();
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+        }
+      });
+    });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('.animal-option').click(function () {
+      var animalId = $(this).data('animal-id');
+      var animalButton = $(this);
+
+      $.ajax({
+        url: 'medAnimal.php',
+        type: 'POST',
+        data: { animalId: animalId },
+        success: function (response) {
+          $('#medicinaliContainer').html(response);
 
           var animalName = animalButton.text();
         },

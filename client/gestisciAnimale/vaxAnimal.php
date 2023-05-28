@@ -30,7 +30,7 @@ if (isset($_POST['animalId'])) {
                                               $nome = $row['nome'];
                                           }
 
-                                          if (strtotime($vaccino['data']) < strtotime(date('Y-m-d')) && strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months') > strtotime(date('Y-m-d'))) {
+                                          if (strtotime($vaccino['data']) <= strtotime(date('Y-m-d')) && strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months') > strtotime(date('Y-m-d'))) {
                                             echo '<li class="d-flex mb-4 pb-1">
                                             <div class="avatar flex-shrink-0 me-3">
                                               <div class="d-flex">
@@ -47,7 +47,7 @@ if (isset($_POST['animalId'])) {
                                               <div class="user-progress d-flex align-items-center gap-1">
                                               <div class="me-2">
                                                 <small class="text-muted d-block mb-1">data scadenza</small>
-                                                <h6 class="mb-0 text-success">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                                <h6 class="mb-0 text-success">'.date('d-m-Y', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
                                               </div>
                                               </div>
                                             </div>
@@ -70,7 +70,7 @@ if (isset($_POST['animalId'])) {
                                             <div class="user-progress d-flex align-items-center gap-1">
                                             <div class="me-2">
                                                 <small class="text-muted d-block mb-1">vaccinazione il</small>
-                                                <h6 class="mb-0 text-warning">'.date('Y-m-d', strtotime($vaccino['data'])).'</h6>
+                                                <h6 class="mb-0 text-warning">'.date('d-m-Y', strtotime($vaccino['data'])).'</h6>
                                               </div>
                                               
                                             </div>
@@ -90,13 +90,13 @@ if (isset($_POST['animalId'])) {
                                             </div>
                                             <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
                                               <div class="me-2">
-                                                <small class="text-muted d-block mb-1">scaduti</small>
+                                                <small class="text-muted d-block mb-1">scaduto</small>
                                                 <h6 class="mb-0">'.$nome.'</h6>
                                               </div>
                                               <div class="user-progress d-flex align-items-center gap-1">
                                               <div class="me-2">
                                                 <small class="text-muted d-block mb-1">data scadenza</small>
-                                                <h6 class="mb-0 text-danger">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                                <h6 class="mb-0 text-danger">'.date('d-m-Y', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
                                               </div>
                                                 
                                               </div>
