@@ -308,7 +308,7 @@ include_once '../../login/check-login.php';
                       
                       <div class="col-md-12">
                         <!-- Intestazione -->
-                        <div class="card mb-4" id="modifica">
+                        <div class="card mb-4" id="modifica" id="animalData">
                           <div class="card-body">
                             <div class="d-flex align-items-start align-items-sm-center gap-4">
                             ';
@@ -339,20 +339,20 @@ include_once '../../login/check-login.php';
                                 <div class="mb-3 col-md-6">
                                   <label for="tipologia" class="form-label">Tipologia</label>
                                   ';
-                                  if ($firstAnimal['tipologia'] == 'cane') {
-                                    echo '
+              if ($firstAnimal['tipologia'] == 'cane') {
+                echo '
                                     <select id="tipologia" name="tipologia" class="select2 form-select">
                                       <option value="cane" selected="">cane</option>
                                       <option value="gatto">gatto</option>
                                     </select>';
-                                    } else {
-                                      echo '
+              } else {
+                echo '
                                     <select id="tipologia" name="tipologia" class="select2 form-select">
                                       <option value="cane">cane</option>
                                       <option value="gatto" selected="">gatto</option>
                                     </select>';
-                                  }
-                                  echo '
+              }
+              echo '
                                   
                                 </div>
                                 <div class="mb-3 col-md-6">
@@ -361,18 +361,18 @@ include_once '../../login/check-login.php';
                                 </div>
                                 <div class="mb-3 col-md-6">
                                   <label for="sesso" class="form-label">Sesso</label>';
-                                  if ($firstAnimal['sesso'] == 'M') {
-                                    echo '<select id="sesso" name="sesso" class="select2 form-select">
+              if ($firstAnimal['sesso'] == 'M') {
+                echo '<select id="sesso" name="sesso" class="select2 form-select">
                                                         <option value="M" selected="">M</option>
                                                         <option value="F">F</option>
                                                       </select>  ';
-                                  } else {
-                                    echo '<select id="sesso" name="sesso" class="select2 form-select">
+              } else {
+                echo '<select id="sesso" name="sesso" class="select2 form-select">
                                                         <option value="M" >M</option>
                                                         <option value="F" selected="">F</option>
                                                       </select>  ';
-                                  }
-                                  echo '
+              }
+              echo '
                                                                 
                                 </div>
                                 <div class="mb-3 col-md-6">
@@ -405,172 +405,140 @@ include_once '../../login/check-login.php';
                         <!-- / Intestazione -->
 
 
-
-
-
-
-
-
-
-
-                        <div class="row">
-
-                          <!-- Vaccini -->
-                          <div class="col-md-6 col-lg-6 order-0 mb-4">
+                        <!-- Vaccini -->
+                          <div class="col-md-6 col-lg-6 order-0 mb-4" >
                             <div class="card h-100">
                               <div class="card-header d-flex align-items-center justify-content-between">
                                 <h5 class="card-title m-0 me-2">Vaccini</h5>
-                                <div class="dropdown">
-                                  <button type="button" class="btn btn-outline-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    validi
-                                  </button>
-                                  <div class="dropdown-menu dropdown-menu-end" aria-labelledby="transactionID">
-                                    <a class="dropdown-item" href="javascript:void(0);">da effettuare</a>
-                                    <a class="dropdown-item" href="javascript:void(0);">scaduti</a>
-                                  </div>
-                                </div>
                               </div>
-                              <div class="card-body">
-                                <ul class="p-0 m-0">
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-success p-25"><i class="bx bxs-vial text-success"></i></span>
-                                        </div>
-                                      </div>
+                              <div class="card-body" id="vacciniContainer">
+                                <ul class="p-0 m-0">';
+                                $result = $mysql->query("SELECT * FROM vaccini_animali WHERE fkidA = " . $firstAnimal['aid']);
+
+                                $vaccini = array(); // Array per memorizzare i vaccini
+                                while ($row = $result->fetch_assoc()) {
+                                  $vaccini[] = $row; // Aggiungi ogni vaccino all'array
+                                }
+                                
+                                if ($result->num_rows == 0) {
+                                  echo '<p>NESSUN VACCINO INSERITO</p>
+                                    <div style="margin: 0 auto;">
+                                      <a href="../aggiungi/aggiungiVax.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
+                                        Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                                      </a>
+                                    </div>';
+                                }else{
+                                      foreach ($vaccini as $vaccino) {
+                                        $ris = $mysql->query("SELECT nome FROM vaccini WHERE idV=".$vaccino['fkidV']."");
+                                          $nome = "";
+                                          if ($ris && $ris->num_rows > 0) {
+                                              $row = $ris->fetch_assoc();
+                                              $nome = $row['nome'];
+                                          }
+
+                                          if (strtotime($vaccino['data']) < strtotime(date('Y-m-d')) && strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months') > strtotime(date('Y-m-d'))) {
+                                            echo '<li class="d-flex mb-4 pb-1">
+                                            <div class="avatar flex-shrink-0 me-3">
+                                              <div class="d-flex">
+                                                <div class="me-2">
+                                                  <span class="badge bg-label-success p-25"><i class="bx bxs-vial text-success"></i></span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                              <div class="me-2">
+                                                <small class="text-muted d-block mb-1">valido</small>
+                                                <h6 class="mb-0">'.$nome.'</h6>
+                                              </div>
+                                              <div class="user-progress d-flex align-items-center gap-1">
+                                              <div class="me-2">
+                                                <small class="text-muted d-block mb-1">data scadenza</small>
+                                                <h6 class="mb-0 text-success">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                              </div>
+                                              </div>
+                                            </div>
+                                          </li>';
+                                        } else if(strtotime($vaccino['data']) > strtotime(date('Y-m-d'))){
+                                          echo'
+                                          <li class="d-flex mb-4 pb-1">
+                                          <div class="avatar flex-shrink-0 me-3">
+                                            <div class="d-flex">
+                                              <div class="me-2">
+                                                <span class="badge bg-label-warning p-25"><i class="bx bxs-vial text-warning"></i></span>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                            <div class="me-2">
+                                              <small class="text-muted d-block mb-1">da effettuare</small>
+                                              <h6 class="mb-0">'.$nome.'</h6>
+                                            </div>
+                                            <div class="user-progress d-flex align-items-center gap-1">
+                                            <div class="me-2">
+                                                <small class="text-muted d-block mb-1">vaccinazione il</small>
+                                                <h6 class="mb-0 text-warning">'.date('Y-m-d', strtotime($vaccino['data'])).'</h6>
+                                              </div>
+                                              
+                                            </div>
+                                          </div>
+                                        </li>';
+                                          
+                                        }else{
+                                          echo'
+                                          
+                                            <li class="d-flex mb-4 pb-1">
+                                            <div class="avatar flex-shrink-0 me-3">
+                                              <div class="d-flex">
+                                                <div class="me-2">
+                                                  <span class="badge bg-label-danger p-25"><i class="bx bxs-vial text-danger"></i></span>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
+                                              <div class="me-2">
+                                                <small class="text-muted d-block mb-1">scaduti</small>
+                                                <h6 class="mb-0">'.$nome.'</h6>
+                                              </div>
+                                              <div class="user-progress d-flex align-items-center gap-1">
+                                              <div class="me-2">
+                                                <small class="text-muted d-block mb-1">data scadenza</small>
+                                                <h6 class="mb-0 text-danger">'.date('Y-m-d', strtotime($vaccino['data'] . ' + ' . $vaccino['durata'] . ' months')).'</h6>
+                                              </div>
+                                                
+                                              </div>
+                                            </div>
+                                          </li>
+                                          ';
+
+                                        }
+                                    
+
+
+                                      }
+
+                                      echo'</ul>
+                                      <div style="margin: 0 auto;">
+                                      <a href="../aggiungi/aggiungiVax.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
+                                        Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
+                                      </a>
                                     </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">validi</small>
-                                        <h6 class="mb-0">Antirabbica</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">24/06/2026</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-warning p-25"><i class="bx bxs-vial text-warning"></i></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">da effettuare</small>
-                                        <h6 class="mb-0">Antirabbica</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-warning">02/05/2023</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-danger p-25"><i class="bx bxs-vial text-danger"></i></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">scaduti</small>
-                                        <h6 class="mb-0">Antirabbica</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-danger">24/06/2021</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <div style="margin: 0 auto;">
-                                  <a href="../aggiungi/aggiungiVax.html" type="button" class="btn rounded-pill btn-primary">
-                                    Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
-                                  </a>
-                                </div>
-                                <br>
+                                      <br>';
+
+                                    }
+
+                                  
+
+
+                                  echo '
                               </div>
                             </div>
                           </div>
                           <!-- / Vaccini -->
 
-                          <!-- Medicinali -->
-                          <div class="col-md-6 col-lg-6 order-1 mb-4">
-                            <div class="card h-100">
-                              <div class="card-header d-flex align-items-center justify-content-between">
-                                <h5 class="card-title m-0 me-2">Medicinali</h5>
-                              </div>
-                              <div class="card-body">
-                                <ul class="p-0 m-0">
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-danger p-25"><i class="bx bxs-capsule text-danger"></i></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">non effettuata</small>
-                                        <h6 class="mb-0">Medicina1</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-danger">08:00</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-success p-25"><i class="bx bxs-capsule text-success"></i></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">effettuata</small>
-                                        <h6 class="mb-0">Medicina2</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-success">14:45</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                  <li class="d-flex mb-4 pb-1">
-                                    <div class="avatar flex-shrink-0 me-3">
-                                      <div class="d-flex">
-                                        <div class="me-2">
-                                          <span class="badge bg-label-warning p-25"><i class="bx bxs-capsule text-warning"></i></span>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    <div class="d-flex w-100 flex-wrap align-items-center justify-content-between gap-2">
-                                      <div class="me-2">
-                                        <small class="text-muted d-block mb-1">da effettuare</small>
-                                        <h6 class="mb-0">Medicina3</h6>
-                                      </div>
-                                      <div class="user-progress d-flex align-items-center gap-1">
-                                        <h6 class="mb-0 text-warning">20:30</h6>
-                                      </div>
-                                    </div>
-                                  </li>
-                                </ul>
-                                <div style="margin: 0 auto;">
-                                  <a href="../aggiungiMed.html" type="button" class="btn rounded-pill btn-primary">
-                                    Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
-                                  </a>
-                                </div>
-                                <br>
-                              </div>
-                            </div>
-                          </div>
-                          <!-- / Medicinali -->
+
+                        <div class="row">
+
+                          
                         </div>
 
                         <div class="card">
@@ -582,16 +550,16 @@ include_once '../../login/check-login.php';
                                 <p class="mb-0">Una volta eliminato non sarà più recuperabile.</p>
                               </div>
                             </div>
-                            <form id="formAccountDeactivation" onsubmit="return false">
+                            <form id="formAccountDeactivation" action="elimina_animale.php" method="POST">
                               <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
+                                <input class="form-control" id="idAnimal" name="idAnimal" value="' . $firstAnimal['aid'] . '" style="display: none;">
+                                <input required="" class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation">
                                 <label class="form-check-label" for="accountActivation">confermo di voler eliminare il mio animale</label>
                               </div>
-                              <button type="submit" class="btn btn-danger deactivate-account">Elimina Animale</button>
+                              <button type="button" class="btn btn-danger deactivate-account">Elimina Animale</button>
                             </form>
                           </div>
                         </div>
-
                       </div>
                     </div>
                 </div>
@@ -730,6 +698,67 @@ include_once '../../login/check-login.php';
     });
   });
 </script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.deactivate-account').click(function () {
+      var idAnimal = $('#idAnimal').val();
+      var accountActivation = $('#accountActivation').is(':checked');
+
+      if (accountActivation) {
+        $.ajax({
+          url: 'elimina_animale.php',
+          type: 'POST',
+          data: {
+            idAnimal: idAnimal,
+            accountActivation: 'on'
+          },
+          success: function (response) {
+            if (response.success) {
+              alert('Errore durante l\'eliminazione dell\'animale.');
+              window.location.href = '../home/client.php';
+            } else {
+              alert('Animale eliminato correttamente.');
+              window.location.href = '../home/client.php';
+            }
+          },
+          error: function () {
+            alert('Si è verificato un errore durante la chiamata AJAX.');
+          }
+        });
+      } else {
+        alert('Conferma di voler eliminare il mio animale non selezionata.');
+      }
+    });
+  });
+</script>
+
+
+<script>
+  $(document).ready(function () {
+    $('.animal-option').click(function () {
+      var animalId = $(this).data('animal-id');
+      var animalButton = $(this);
+
+      $.ajax({
+        url: 'vaxAnimal.php',
+        type: 'POST',
+        data: { animalId: animalId },
+        success: function (response) {
+          $('#vacciniContainer').html(response);
+
+          var animalName = animalButton.text();
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+        }
+      });
+    });
+  });
+</script>
+
     
   </body>
 </html>

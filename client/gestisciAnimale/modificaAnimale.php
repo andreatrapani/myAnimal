@@ -15,7 +15,7 @@ $idAnimal = $_POST['idAnimal'];
 $query = "UPDATE animali SET nome='$nome', tipologia='$tipologia', razza='$razza', sesso='$sesso', peso='$peso', data_nascita='$data_nascita', colore='$colore' WHERE aid='$idAnimal'";
 
 if ($mysql->query($query) === TRUE) {
-    header('location: animale.php');
+    header('location: ../home/client.php');
 } else {
     header('location: ../errori/error.html') . $mysql->error;
 }

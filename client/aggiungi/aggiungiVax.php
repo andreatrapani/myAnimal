@@ -1,3 +1,7 @@
+<?php
+include_once '../../login/check-login.php';
+?>
+
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -198,8 +202,17 @@
                             </div>
                           </div>
                           <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>
+                            <?php
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+                              // user is logged in
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
+                            } else {
+                              // user is not logged in
+                            }
+                            ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -223,7 +236,7 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
+                      <a class="dropdown-item" href="../../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>
@@ -248,20 +261,24 @@
                     <div class="card mb-4">
                       <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Aggiungi animale</h5>
+                        <?php
+                        $aid = $_GET['aid'];
+                        ?>
                       </div>
                       <div class="card-body">
-                        <form>
+                        <form action="aggiungi_vaccino_animali.php" method="POST">
                           <div class="mb-3">
                             <label class="form-label" for="nomeVax">Nome</label>
-                            <input required type="text" class="form-control" id="nomeVax" placeholder="Inserisci...">
+                            <input required type="text" class="form-control" id="nomeVax" name="nomeVax" placeholder="Inserisci...">
                           </div>
                           <div class="mb-3">
                             <label for="html5-date-input" class="form-label">Data Vaccinazione</label>
-                            <input required class="form-control" type="date" value="" id="html5-date-input">
+                            <input required class="form-control" type="date" id="dataVaccinazione" name="dataVaccinazione">
                           </div>
                           <div class="mb-3">
                             <label class="form-label" for="durataVax">Durata/Validità in mesi</label>
-                            <input required type="integer" class="form-control" id="durataVax" placeholder="1">
+                            <input required type="number" class="form-control" id="durataVax" name="durataVax" placeholder="1">
+                            <input class="form-control" id="idAnimal" name="idAnimal" value="<?php echo $aid;?>" style="display: none;">
                           </div>
                           <button type="submit" class="btn btn-primary">Aggiungi <i class='bx bx-plus' ></i></button>
                         </form>
@@ -280,7 +297,7 @@
                   ©
                   <script>
                     document.write(new Date().getFullYear());
-                </script>
+                  </script>
                   , by Trap
                 </div>
                 <div>

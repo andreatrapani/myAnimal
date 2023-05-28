@@ -197,24 +197,29 @@
                               <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
-                          <div class="flex-grow-1">
-                            <span class="fw-semibold d-block" id="username"></span>
-                            <small class="text-muted" id="email"></small>
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                          <div class="flex-grow-1" id="user-info">
+                            <!-- User info will be inserted here -->
                             <script>
-                              $(document).ready(function () {
-                                var name = document.cookie.replace(/(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                                $('#username').html(name);
-                              });
+                              // Controlla se l'utente è loggato
+                              var username = sessionStorage.getItem('username');
+                              var email = sessionStorage.getItem('email');
+                              var uid = sessionStorage.getItem('uid');
 
-                              $(document).ready(function () {
-                                var email = document.cookie.replace(/(?:(?:^|.*;\s*)email\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-                                $('#email').html(email);
-                              });
+                              if (username && email !== '') {
+                                var userInfo = document.getElementById('user-info');
+
+                                // Crea gli elementi HTML per visualizzare le informazioni dell'utente
+                                var spanElement = document.createElement('span');
+                                spanElement.className = 'fw-semibold d-block';
+                                spanElement.textContent = email + ' uid: ' + uid;
+                                userInfo.appendChild(spanElement);
+
+                                var smallElement = document.createElement('small');
+                                smallElement.className = 'text-muted';
+                                smallElement.textContent = username;
+                                userInfo.appendChild(smallElement);
+                              }
                             </script>
-                            
-                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
-                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -312,8 +317,8 @@
             
                       <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
                       <script type="text/javascript">
-                        $(document).ready(function() {
-                          $('form').on('submit', function(e) {
+                        $(document).ready(function () {
+                          $('form').on('submit', function (e) {
                             e.preventDefault(); // prevent the default form submission behavior
                             var nome = $('#basic-default-nome').val();
                             var tipologia = $('#basic-default-tipologia').val();
@@ -322,7 +327,7 @@
                             var peso = $('#basic-default-peso').val();
                             var data_nascita = $('#html5-date-input').val();
                             var colore = $('#html5-color-input').val();
-                      
+
                             $.ajax({
                               type: "POST",
                               url: "./aggiungiAnimale.php",
@@ -335,12 +340,12 @@
                                 data_nascita: data_nascita,
                                 colore: colore,
                               },
-                              success: function(data) {
+                              success: function (data) {
                                 // handle success response here
                                 console.log(data);
                                 $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">Hai aggiunto l\'animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
                               },
-                              error: function(xhr, status, error) {
+                              error: function (xhr, status, error) {
                                 // handle error response here
                               }
                             });
@@ -465,5 +470,16 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <script>
+      $.ajax({
+        url: '../../login/check-login.php',
+        dataType: 'html',
+        success: function (response) {
+          // Il contenuto del file PHP è presente nella variabile "response"
+          console.log(response);
+        }
+      });
+    </script>
   </body>
 </html>
