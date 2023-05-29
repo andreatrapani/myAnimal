@@ -254,14 +254,16 @@ $user = $_SESSION['username'];
                           </div>
                           <div class="flex-grow-1">
                             <?php
-                            if (isset($_SESSION['username']) && $_SESSION['email'] != '') {
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
                               // user is logged in
-                              echo '<span class="fw-semibold d-block">' . $_SESSION['email'] . " uid: " . $_SESSION['uid'] . "</span>";
-                              echo '<small class="text-muted">' . $_SESSION['username'] . "</small>";
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
                             } else {
                               // user is not logged in
                             }
                             ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -270,22 +272,16 @@ $user = $_SESSION['username'];
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#">
+                      <a class="dropdown-item" href="../user/user.php">
                         <i class="bx bx-user me-2"></i>
                         <span class="align-middle">My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-cog me-2"></i>
-                        <span class="align-middle">Settings</span>
                       </a>
                     </li>
                     <li>
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="/maproject/myAnimal/login/signout.php">
+                      <a class="dropdown-item" href="../../login/signout.php">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                       </a>

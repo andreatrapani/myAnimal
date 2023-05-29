@@ -1,17 +1,7 @@
-<!DOCTYPE html>
+<?php
+include_once '../../login/check-login.php';
+?>
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
-<!-- beautify ignore:start -->
 <!DOCTYPE html>
 
 <!-- =========================================================
@@ -31,7 +21,7 @@
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
-  data-assets-path="../../assets/"
+  data-assets-path="../assets/"
   data-template="vertical-menu-template-free"
 >
   <head>
@@ -41,7 +31,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>MyAnimal - Add Animal</title>
+    <title>Account settings - Account | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
 
     <meta name="description" content="" />
 
@@ -67,8 +57,6 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../../assets/vendor/libs/apex-charts/apex-charts.css" />
-
     <!-- Page CSS -->
 
     <!-- Helpers -->
@@ -77,7 +65,6 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
-
   </head>
 
   <body>
@@ -122,7 +109,7 @@
                 <div data-i18n="Gestisci Animali">Gestisci Animali</div>
               </a>
             </li>
-            <li class="menu-item active">
+            <li class="menu-item">
               <a href="../aggiungi/aggiungiAnimale.html" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-plus"></i>
                 <div data-i18n="add-animal">Aggiungi Animale</div>
@@ -185,29 +172,18 @@
                               <img src="../../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                             </div>
                           </div>
-                          <div class="flex-grow-1" id="user-info">
-                            <!-- User info will be inserted here -->
-                            <script>
-                              // Controlla se l'utente è loggato
-                              var username = sessionStorage.getItem('username');
-                              var email = sessionStorage.getItem('email');
-                              var uid = sessionStorage.getItem('uid');
-
-                              if (username && email !== '') {
-                                var userInfo = document.getElementById('user-info');
-
-                                // Crea gli elementi HTML per visualizzare le informazioni dell'utente
-                                var spanElement = document.createElement('span');
-                                spanElement.className = 'fw-semibold d-block';
-                                spanElement.textContent = email + ' uid: ' + uid;
-                                userInfo.appendChild(spanElement);
-
-                                var smallElement = document.createElement('small');
-                                smallElement.className = 'text-muted';
-                                smallElement.textContent = username;
-                                userInfo.appendChild(smallElement);
-                              }
-                            </script>
+                          <div class="flex-grow-1">
+                            <?php
+                            if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+                              // user is logged in
+                              echo '<span class="fw-semibold d-block">' . $_SESSION['username'] . " </span>";
+                              echo '<small class="text-muted">' . $_SESSION['email'] . "</small>";
+                            } else {
+                              // user is not logged in
+                            }
+                            ?>
+                            <!--<span class="fw-semibold d-block">AAAAAAAAAA</span>
+                            <small class="text-muted">User</small>-->
                           </div>
                         </div>
                       </a>
@@ -244,147 +220,119 @@
             <!-- Content -->
 
             <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">MyProfile /</span> <?php echo $_SESSION['username']?></h4>
+                
+
+
               <div class="row">
-                <!-- Form -->
-                <div class="col-xl">
+                <div class="col-md-12">
                   <div class="card mb-4">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                      <h5 class="mb-0">Aggiungi animale</h5>
-                    </div>
+                    <h5 class="card-header">Profile Details</h5>
+                    <!-- Account -->
                     <div class="card-body">
-                      <form id="formAuthentication" class="mb-3" method="POST">
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-nome">Nome</label>
-                          <input required type="text" class="form-control" id="basic-default-nome" placeholder="Rex">
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-company">Tipologia</label>
-                          <select required class="form-select" id="basic-default-tipologia">
-                            <option>Seleziona...</option>
-                            <option value="cane">cane</option>
-                            <option value="gatto">gatto</option>
-                          </select>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-email">Razza</label>
-                          <input required type="text" class="form-control" id="basic-default-razza" placeholder="Husky">
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-phone">Sesso</label>
-                          <select required class="form-select" id="basic-default-sesso">
-                            <option>Seleziona...</option>
-                            <option value="M">M</option>
-                            <option value="F">F</option>
-                          </select>
-                        </div>
-                        <div class="mb-3">
-                          <label class="form-label" for="basic-default-peso">Peso</label>
-                          <div class="input-group input-group-merge">
-                            <input type="text" id="basic-default-peso" class="form-control" placeholder="12" aria-label="12" aria-describedby="basic-default-peso2">
-                            <span class="input-group-text" id="basic-default-peso2">kg</span>
+                      <div class="d-flex align-items-start align-items-sm-center gap-4">
+                        <img
+                          src="../../assets/img/avatars/1.png"
+                          alt="user-avatar"
+                          class="d-block rounded"
+                          height="100"
+                          width="100"
+                          id="uploadedAvatar"
+                        />
+                      </div>
+                    </div>
+                    <hr class="my-0" />
+                    <div class="card-body">
+                    <form id="formAccountSettings" method="POST" action="modicaUser.php">
+                        <div class="row">
+                            <?php
+                                $mysql = new mysqli('localhost', 'root', '', 'reg-bd');
+                                $risultato = $mysql->query("SELECT * FROM user WHERE uid = " . $_SESSION['uid']);
+                                $user = $risultato->fetch_assoc(); // Ottieni la riga dei dati dell'utente
+                            
+                            ?>
+                            <div class="mb-12 col-md-12">
+                                <label for="Nome" class="form-label">Nome</label>
+                                <input class="form-control" type="text" id="Nome" name="Nome" value="<?php echo $user['nome']; ?>" />
+                            </div>
+                          <div class="mb-12 col-md-12">
+                            <label for="lastName" class="form-label">Cognome</label>
+                            <input class="form-control" type="text" name="Cognome" id="Cognome" value="<?php echo $user['cognome']; ?>" />
                           </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="html5-date-input" class="form-label">Data Nascita</label>
-                          <input class="form-control" type="date" value="2017-06-18" id="html5-date-input">
-                        </div>
-                        <div class="mb-3">
-                          <label for="html5-color-input" class="form-label">Colore</label>
-                          <div>
-                            <input class="form-control" type="color" value="#9E7C42" id="html5-color-input">
+                          <div class="mb-12 col-md-12">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input
+                              class="form-control"
+                              type="text"
+                              id="email"
+                              name="email"
+                              value="<?php echo $user['email']; ?>"
+                              placeholder="john.doe@example.com"
+                            />
                           </div>
+                          <div class="mb-12 col-md-12">
+                            <label for="organization" class="form-label">Indirizzo</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="organization"
+                              name="organization"
+                              value="<?php echo $user['indirizzo']; ?>"
+                            />
+                          </div>
+                          <div class="mb-12 col-md-12">
+                            <label class="form-label" for="phoneNumber">Telefono</label>
+                            <div class="input-group input-group-merge">
+                              <input
+                                type="text"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                                class="form-control"
+                                value="<?php echo $user['telefono']; ?>"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div class="mt-2">
+                          <br>
+                          <button type="submit" class="btn btn-primary me-2">Save changes</button>
                         </div>
-                        <button type="submit" class="btn btn-primary">Aggiungi <i class='bx bx-plus'></i></button>
+                    </div>
+                        
                       </form>
-            
-                      <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
-                      <script type="text/javascript">
-                        $(document).ready(function () {
-                          $('form').on('submit', function (e) {
-                            e.preventDefault(); // prevent the default form submission behavior
-                            var nome = $('#basic-default-nome').val();
-                            var tipologia = $('#basic-default-tipologia').val();
-                            var razza = $('#basic-default-razza').val();
-                            var sesso = $('#basic-default-sesso').val();
-                            var peso = $('#basic-default-peso').val();
-                            var data_nascita = $('#html5-date-input').val();
-                            var colore = $('#html5-color-input').val();
-
-                            $.ajax({
-                              type: "POST",
-                              url: "./aggiungiAnimale.php",
-                              data: {
-                                nome: nome,
-                                tipologia: tipologia,
-                                razza: razza,
-                                sesso: sesso,
-                                peso: peso,
-                                data_nascita: data_nascita,
-                                colore: colore,
-                              },
-                              success: function (data) {
-                                // handle success response here
-                                console.log(data);
-                                $('#formAuthentication').html('<div id="message" style="text-align: center; border: 2px solid #696cff; background-color: #696cff; color: white;">Hai aggiunto l\'animale!</div></br><div class="text-center"><a href="aggiungiAnimale.html" class="btn btn-primary">Aggiungere nuovo animale</a></div>');
-                              },
-                              error: function (xhr, status, error) {
-                                // handle error response here
-                              }
-                            });
-                          });
-                        });
-                      </script>
-                      
+                    </div>
+                    <!-- /Account -->
+                  </div>
+                  <div class="card">
+                    <h5 class="card-header">Elimina Account</h5>
+                    <div class="card-body">
+                      <div class="mb-3 col-12 mb-0">
+                        <div class="alert alert-warning">
+                          <h6 class="alert-heading fw-bold mb-1">Sei sicuro di coler eliminare l'account?</h6>
+                          <p class="mb-0">Una volta eliminato, non sarà più recuperabile</p>
+                        </div>
+                      </div>
+                      <form id="formAccountDeactivation" method="POST" action="elimina_account.php">
+                        <div class="form-check mb-3">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="accountActivation"
+                            id="accountActivation"
+                            required=""
+                          />
+                          <label class="form-check-label" for="accountActivation"
+                            >Conferno di voler eliminare l'account</label
+                          >
+                        </div>
+                        <button type="submit" class="btn btn-danger deactivate-account">Elimina</button>
+                      </form>
                     </div>
                   </div>
                 </div>
-                <!-- / Form -->
               </div>
             </div>
-            
             <!-- / Content -->
-
-            <!-- Modal -->
-            <div class="modal fade" id="exLargeModal" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-xl" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel4">Modal title</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col mb-3">
-                        <label for="nameExLarge" class="form-label">Name</label>
-                        <input type="text" id="nameExLarge" class="form-control" placeholder="Enter Name" />
-                      </div>
-                    </div>
-                    <div class="row g-2">
-                      <div class="col mb-0">
-                        <label for="emailExLarge" class="form-label">Email</label>
-                        <input type="text" id="emailExLarge" class="form-control" placeholder="xxxx@xxx.xx" />
-                      </div>
-                      <div class="col mb-0">
-                        <label for="dobExLarge" class="form-label">DOB</label>
-                        <input type="text" id="dobExLarge" class="form-control" placeholder="DD / MM / YY" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                      Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /Modal -->
 
             <!-- Footer -->
             <footer class="content-footer footer bg-footer-theme">
@@ -394,7 +342,8 @@
                   <script>
                     document.write(new Date().getFullYear());
                   </script>
-                  , by Trap
+                  , made with ❤️ by
+                  <a href="https://themeselection.com" target="_blank" class="footer-link fw-bolder">ThemeSelection</a>
                 </div>
                 <div>
                   <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
@@ -430,10 +379,9 @@
     </div>
     <!-- / Layout wrapper -->
 
-
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    
+    <script src="../../assets/vendor/libs/jquery/jquery.js"></script>
     <script src="../../assets/vendor/libs/popper/popper.js"></script>
     <script src="../../assets/vendor/js/bootstrap.js"></script>
     <script src="../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
@@ -442,26 +390,14 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="../../assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
     <!-- Main JS -->
     <script src="../../assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="../../assets/js/dashboards-analytics.js"></script>
+    <script src="../../assets/js/pages-account-settings-account.js"></script>
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-    <script>
-      $.ajax({
-        url: '../../login/check-login.php',
-        dataType: 'html',
-        success: function (response) {
-          // Il contenuto del file PHP è presente nella variabile "response"
-          console.log(response);
-        }
-      });
-    </script>
   </body>
 </html>
