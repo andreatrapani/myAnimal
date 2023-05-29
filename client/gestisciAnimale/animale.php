@@ -630,7 +630,7 @@ include_once '../../login/check-login.php';
 
                               echo'</ul>
                               <div style="margin: 0 auto;">
-                              <a href="../aggiungi/aggiungiVax.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
+                              <a href="../aggiungi/aggiungiMed.php?aid=' . $firstAnimal['aid'] . '" type="button" class="btn rounded-pill btn-primary">
                                 Inserisci&nbsp;<span class="tf-icons bx bx-plus"></span>
                               </a>
                             </div>

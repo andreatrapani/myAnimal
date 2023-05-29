@@ -24,6 +24,7 @@
     $query = "UPDATE user SET nome = '$nome', cognome = '$cognome', email = '$email', indirizzo = '$indirizzo', telefono = '$telefono' WHERE uid = $uid";
 
     if ($mysql->query($query) === TRUE) {
+        $_SESSION['email']=$email;
         header('location: user.php');
     } else {
         header('location: user.php') . $mysql->error;
